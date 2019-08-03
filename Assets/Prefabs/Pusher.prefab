@@ -5001,9 +5001,9 @@ GameObject:
   - component: {fileID: 4558857279515623066}
   - component: {fileID: 5552073831261719108}
   - component: {fileID: 5552073831261719106}
-  - component: {fileID: 2958228916362737912}
   - component: {fileID: 7502965700977593987}
   - component: {fileID: 2112404958688440571}
+  - component: {fileID: 1763594587581430863}
   m_Layer: 0
   m_Name: Pusher
   m_TagString: Pickupable
@@ -5085,19 +5085,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 0
---- !u!65 &2958228916362737912
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5552073831261719105}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &7502965700977593987
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5210,6 +5197,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &1763594587581430863
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5552073831261719105}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.707
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6996006350221261411
 GameObject:
   m_ObjectHideFlags: 0
