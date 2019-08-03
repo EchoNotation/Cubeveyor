@@ -26,7 +26,6 @@ public class PlayerControls : MonoBehaviour
 
     private Rigidbody body;
     private float distToGround, distToFront, distToSide;
-    private CapsuleCollider shape;
     private BoxCollider shape;
     private Vector3 rayCastBoundsFront, rayCastBoundsBack, rayCastBoundsLeft, rayCastBoundsRight;
     private float buffer = 0.2f;
