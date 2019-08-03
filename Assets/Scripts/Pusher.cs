@@ -60,12 +60,10 @@ public class Pusher : MonoBehaviour
         {
             if(source.isPlaying)
             {
+                source.Stop();
+            }
 
-            }
-            else
-            {
-                source.Play();
-            }
+            source.Play();
 
             grabbedObject = col.gameObject;
             grabbedObject.GetComponent<Payload>().Grab(direction, this.transform);
