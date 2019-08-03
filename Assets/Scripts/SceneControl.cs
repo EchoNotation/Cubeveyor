@@ -92,4 +92,10 @@ public class SceneControl : MonoBehaviour
         GameObject.Find("Camera").GetComponent<MenuCameraMovement>().StartTransition();
         GameObject.Find("Canvas").SetActive(false);
     }
+
+    public void quit()
+    {
+        Application.Quit();
+    }
+
 }
