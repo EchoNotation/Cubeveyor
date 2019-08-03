@@ -454,7 +454,7 @@ MonoBehaviour:
   lineColor2: {r: 0, g: 0, b: 1, a: 1}
   additiveRendering: 0
   backfaceCulling: 1
-  cornerOutlines: 0
+  cornerOutlines: 1
   addLinesBetweenColors: 0
   scaleWithScreenSize: 1
   alphaCutoff: 0.5
@@ -510,7 +510,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 1
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -529,7 +529,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7376062585610518286}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -567,10 +567,10 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7376062585610518286}
   serializedVersion: 2
-  m_Mass: 0.5
-  m_Drag: 10
+  m_Mass: 6
+  m_Drag: 0.5
   m_AngularDrag: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
@@ -589,5 +589,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   playerCam: {fileID: 7376062585410755131}
-  rayDistance: 0
   maxDistanceGrab: 100
