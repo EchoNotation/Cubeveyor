@@ -36,7 +36,6 @@ public class Pusher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(Time.deltaTime, 0, 0);
         transform.Rotate(0, Time.deltaTime * 50, 0, Space.World);
         if(waitingToDeploy)
         {
