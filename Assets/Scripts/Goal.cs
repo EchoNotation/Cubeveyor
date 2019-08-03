@@ -18,12 +18,12 @@ public class Goal : MonoBehaviour
         
     }
 
-    public void OnTriggerEnter(Collider col)
+    public void OnCollisionEnter(Collision col)
     {
-        if(col.CompareTag("Payload"))
+        if(col.gameObject.CompareTag("Payload"))
         {
             //Complete level
-            //sceneController.GetComponent<SceneControl>().LoadScene("Main Menu");
+            sceneController.GetComponent<SceneControl>().LoadScene("MainMenu");
         }
     }
 }
