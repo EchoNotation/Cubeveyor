@@ -105,6 +105,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: 1
-  eraseRenderer: 0
+  eraseRenderer: 1
   originalLayer: 0
   originalMaterials: []
