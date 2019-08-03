@@ -20,7 +20,6 @@ public class Pusher : MonoBehaviour
     public Direction direction;
     private bool waitingToDeploy;
     private const long deployTimer = 1500;
-    private long initialTime;
     private GameObject grabbedObject;
     private ParticleSystem Grab;
 
@@ -31,7 +30,6 @@ public class Pusher : MonoBehaviour
         Grab.Stop();
         waitingToDeploy = false;
         timer = new System.Diagnostics.Stopwatch();
-        timer.Start();
     }
 
     // Update is called once per frame
@@ -39,12 +37,13 @@ public class Pusher : MonoBehaviour
     {
         if(waitingToDeploy)
         {
-            if(timer.ElapsedMilliseconds - deployTimer > initialTime)
+            if(timer.ElapsedMilliseconds > deployTimer)
             {
                 //Deploy the payload!
                 grabbedObject.GetComponent<Payload>().Release();
-                initialTime = timer.ElapsedMilliseconds;
                 waitingToDeploy = false;
+                timer.Stop();
+                timer.Reset();
             }
         }
     }
@@ -56,8 +55,8 @@ public class Pusher : MonoBehaviour
             grabbedObject = col.gameObject;
             grabbedObject.GetComponent<Payload>().Grab(direction, this.transform);
             waitingToDeploy = true;
+            timer.Start();
             Grab.Play();
-            initialTime = timer.ElapsedMilliseconds;
         }
     }
 

@@ -9,6 +9,8 @@ public class Payload : MonoBehaviour
     private Direction direction;
     private bool isGrappled;
     private const int forceConstant = 5;
+    private const int upConstant = 2;
+    private Vector3 payloadOrigin;
     private float speed = 42f;
     private Transform target;
     private Vector3 lastError;
@@ -18,6 +20,7 @@ public class Payload : MonoBehaviour
     {
         isGrappled = false;
         body = this.GetComponent<Rigidbody>();
+        payloadOrigin = this.transform.position;
         lastError = Vector3.zero;
         //body.AddForce(new Vector3(forceConstant,0,0), ForceMode.Impulse);
     }
@@ -45,7 +48,6 @@ public class Payload : MonoBehaviour
     public void Release()
     {
         isGrappled = false;
-
         Vector3 force = new Vector3();
 
         switch(direction)
@@ -72,9 +74,29 @@ public class Payload : MonoBehaviour
                 Debug.Log("Unrecognizaed payload direction! Direction: " + direction.ToString());
                 break;
         }
+
+        if(direction == Direction.UP)
+        {
+            body.AddForce(force * forceConstant * upConstant, ForceMode.Impulse);
+        }
+        else
+        {
+            body.AddForce(force * forceConstant, ForceMode.Impulse);
+        }
         body.velocity = Vector3.zero;
         body.transform.position = target.position;
         body.AddForce(force * forceConstant, ForceMode.Impulse);
 
+    }
+
+    public void Play()
+    {
+        this.GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    public void Rewind()
+    {
+        this.transform.position = payloadOrigin;
+        this.GetComponent<Rigidbody>().useGravity = false;
     }
 }
