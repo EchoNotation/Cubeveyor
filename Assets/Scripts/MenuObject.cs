@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MenuObject : MonoBehaviour
 {
+
+    int i;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +16,7 @@ public class MenuObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0, Time.deltaTime * 50, 0, Space.World);
+        transform.Rotate(0, Time.deltaTime * 20, 0, Space.World);
+        i++;
     }
 }
