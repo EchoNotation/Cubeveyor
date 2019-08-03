@@ -8,6 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using cakeslice;
 
 public class CharacterController : MonoBehaviour
 {
@@ -18,10 +19,11 @@ public class CharacterController : MonoBehaviour
     public float rayDistance;
     private GameObject objectHeld;
     private bool isObjectHeld;
-    public float distance = 1f;
+    private float distance = 3f;
     public float maxDistanceGrab = 100f;
     private float strafe;
     private bool rewindNext;
+
     private Rigidbody body;
     private float distToGround, distToFront, distToSide;
     private CapsuleCollider shape;
@@ -132,7 +134,7 @@ public class CharacterController : MonoBehaviour
                 isObjectHeld = true;
             } else if (hit.collider.tag == "Wall"){
                 Debug.Log(hit.collider.gameObject.name);
-                hit.collider.gameObject.GetComponent<Outline>().enabled = !GetComponent<Outline>().enabled;
+                //hit.collider.gameObject.GetComponent<Outline>().enabled = true;
             }
         }
     }
