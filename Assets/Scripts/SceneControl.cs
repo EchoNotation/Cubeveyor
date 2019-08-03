@@ -16,19 +16,11 @@ public class SceneControl : MonoBehaviour
 
     public void Start()
     {
-        timer = new System.Diagnostics.Stopwatch();
-        trackingCamera = GameObject.Find("Main Camera");
-        cameraOrigin = trackingCamera.transform.position;
-        origRotation = trackingCamera.transform.rotation.eulerAngles;
+        
     }
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            TransitionIntoCube();
-        }
-
         if(transitioning)
         {
             switch(phase) {
@@ -85,6 +77,10 @@ public class SceneControl : MonoBehaviour
     public void TransitionIntoCube()
     {
         cubeTransform = GameObject.Find("RubiksCube").transform.position;
+        trackingCamera = GameObject.Find("Main Camera");
+        timer = new System.Diagnostics.Stopwatch();
+        cameraOrigin = trackingCamera.transform.position;
+        origRotation = trackingCamera.transform.rotation.eulerAngles;
         secondPosition = new Vector3(0, cubeTransform.y + 5f, 0);
         finalPosition = new Vector3(0, cubeTransform.y + 0.85f, 0);
         transitioning = true;
