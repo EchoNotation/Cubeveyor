@@ -16,7 +16,7 @@ public enum Direction
 public class Pusher : MonoBehaviour
 {
     //The direction that this pusher imparts its  force in.
-    private System.Diagnostics.Stopwatch timer, noDoubleCol;
+    private System.Diagnostics.Stopwatch timer;
     GameObject soundManager;
     public Direction direction;
     private bool waitingToDeploy;
@@ -33,10 +33,8 @@ public class Pusher : MonoBehaviour
         Grab.Stop();
         waitingToDeploy = false;
         timer = new System.Diagnostics.Stopwatch();
-        noDoubleCol = new System.Diagnostics.Stopwatch();
         transform.rotation = Quaternion.Euler(45,45,45);
         soundManager = GameObject.Find("SoundManager");
-        noDoubleCol.Start();
     }
 
     // Update is called once per frame
@@ -58,10 +56,8 @@ public class Pusher : MonoBehaviour
 
     public void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.CompareTag("Payload") && noDoubleCol.ElapsedMilliseconds > 2000)
+        if(col.gameObject.CompareTag("Payload"))
         {
-            noDoubleCol.Reset();
-
             if(source.isPlaying)
             {
                 source.Stop();
