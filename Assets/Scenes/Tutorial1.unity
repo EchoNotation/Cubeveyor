@@ -11501,8 +11501,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-<<<<<<< HEAD
-=======
     - target: {fileID: 7567673190585039101, guid: eac3f0ee92d49cd419d5a7027d261034,
         type: 3}
       propertyPath: m_RootOrder
@@ -11513,6 +11511,5 @@ PrefabInstance:
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 2067440285}
->>>>>>> 3d652286df78d640fdddc5186ef82777859a618e
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eac3f0ee92d49cd419d5a7027d261034, type: 3}
