@@ -10,13 +10,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
 
-public class PlayerControls : MonoBehaviour
+public class CharacterController : MonoBehaviour
 {
 
     public float speed = 10.0f;
     private float translation;
     public Camera playerCam;
-    private float rayDistance = 100f;
+    public float rayDistance;
     private GameObject objectHeld;
     private bool isObjectHeld;
     private float distance = 3f;
@@ -28,8 +28,6 @@ public class PlayerControls : MonoBehaviour
     private float distToGround, distToFront, distToSide;
     private CapsuleCollider shape;
     private Vector3 rayCastBoundsFront, rayCastBoundsBack, rayCastBoundsLeft, rayCastBoundsRight;
-    private float buffer = (float)0.2;
-    GameObject currentHit, lastHit;
 
     bool isGrounded()
     {
@@ -45,10 +43,10 @@ public class PlayerControls : MonoBehaviour
         rewindNext = false;
         body = this.gameObject.GetComponent<Rigidbody>();
         shape = this.gameObject.GetComponent<CapsuleCollider>();
-        distToGround = shape.bounds.extents.y + buffer;
-        distToFront = shape.bounds.extents.z + buffer;
-        distToSide = shape.bounds.extents.x + buffer;
-}
+        distToGround = shape.bounds.extents.y;
+        distToFront = shape.bounds.extents.z;
+        distToSide = shape.bounds.extents.x;
+    }
 
     // Update is called once per frame
     void Update()
@@ -73,7 +71,7 @@ public class PlayerControls : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && isGrounded())
         {
-            body.AddForce(0, 400, 0);
+            body.AddForce(0, 200, 0);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -82,30 +80,24 @@ public class PlayerControls : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            if (!isObjectHeld && objectHeld == null)
-            {
+        if(Input.GetKeyDown(KeyCode.Mouse1)){
+            if(!isObjectHeld && objectHeld == null){
                 Pickup();
-            }
-            else if (isObjectHeld)
-            {
+            } else if(isObjectHeld){
                 DropObject();
             }
-        }
-        else if (objectHeld != null)
-        {
+        } else if (objectHeld != null){
             holdObject();
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if(Input.GetKeyDown(KeyCode.R))
         {
             //Rewind or Play
             GameObject[] payloads = GameObject.FindGameObjectsWithTag("Payload");
 
-            foreach (GameObject i in payloads)
+            foreach(GameObject i in payloads)
             {
-                if (rewindNext)
+                if(rewindNext)
                 {
                     i.GetComponent<Payload>().Rewind();
                 }
@@ -119,9 +111,9 @@ public class PlayerControls : MonoBehaviour
 
             GameObject[] pushers = GameObject.FindGameObjectsWithTag("Pusher");
 
-            foreach (GameObject j in pushers)
+            foreach(GameObject j in pushers)
             {
-                if (rewindNext)
+                if(rewindNext)
                 {
                     j.GetComponent<Pusher>().Rewind();
                 }
@@ -140,45 +132,26 @@ public class PlayerControls : MonoBehaviour
             {
                 objectHeld = hit.collider.gameObject;
                 isObjectHeld = true;
+            } else if (hit.collider.tag == "Wall"){
+                Debug.Log(hit.collider.gameObject.name);
+                //hit.collider.gameObject.GetComponent<Outline>().enabled = true;
             }
         }
     }
-    private void holdObject()
-    {
-        RaycastHit hit;
-        Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, rayDistance))
-        {
-            if (hit.collider.tag == "Wall")
-            {
-                currentHit = hit.collider.gameObject;
-                Outline temp = currentHit.GetComponent<Outline>();
-                temp.color = 1;
-                temp.eraseRenderer = false;
-                if (lastHit != currentHit && lastHit != null)
-                {
-                    Outline test = lastHit.GetComponent<Outline>();
-                    test.color = 2;
-                    test.eraseRenderer = true;
-                }
-                lastHit = currentHit;
-            }
-
-        }
-
+      private void holdObject(){
         Ray playerAim = playerCam.ViewportPointToRay(new Vector3(0.5f, .75f, 0));
-
+       
         Vector3 nextPos = playerCam.transform.position + playerAim.direction * distance;
         Vector3 currPos = objectHeld.transform.position;
-
+               
         objectHeld.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
-
+       
         if (Vector3.Distance(objectHeld.transform.position, playerCam.transform.position) > maxDistanceGrab)
         {
             DropObject();
         }
     }
-
+   
     private void DropObject()
     {
         isObjectHeld = false;
