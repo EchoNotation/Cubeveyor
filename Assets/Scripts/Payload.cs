@@ -9,12 +9,17 @@ public class Payload : MonoBehaviour
     private Direction direction;
     private bool isGrappled;
     private const int forceConstant = 5;
+    private float speed = 42f;
+    private Transform target;
+    private Vector3 lastError;
 
     // Start is called before the first frame update
     void Start()
     {
         isGrappled = false;
         body = this.GetComponent<Rigidbody>();
+        lastError = Vector3.zero;
+        //body.AddForce(new Vector3(forceConstant,0,0), ForceMode.Impulse);
     }
 
     // Update is called once per frame
@@ -22,12 +27,17 @@ public class Payload : MonoBehaviour
     {
         if(isGrappled)
         {
-            body.velocity = new Vector3();
+            Vector3 error = (target.position - transform.position);
+            Vector3 derivitve = error - lastError;
+            body.velocity += (error * 1f + derivitve * 4f);
+            lastError = error;
+
         }
     }
 
-    public void Grab(Direction dir)
+    public void Grab(Direction dir, Transform target)
     {
+        this.target = target;
         isGrappled = true;
         direction = dir;
     }
@@ -62,7 +72,8 @@ public class Payload : MonoBehaviour
                 Debug.Log("Unrecognizaed payload direction! Direction: " + direction.ToString());
                 break;
         }
-
+        body.velocity = Vector3.zero;
+        body.transform.position = target.position;
         body.AddForce(force * forceConstant, ForceMode.Impulse);
 
     }
