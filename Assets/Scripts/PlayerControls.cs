@@ -24,17 +24,16 @@ public class PlayerControls : MonoBehaviour
     private float strafe;
     private bool rewindNext;
 
-    private Rigidbody body;
     private float distToGround, distToFront, distToSide;
     private BoxCollider shape;
     private Vector3 rayCastBoundsFront, rayCastBoundsBack, rayCastBoundsLeft, rayCastBoundsRight;
     private float buffer = 0.2f;
     GameObject currentHit, lastHit;
+    CharacterController controller;
+    public float jumpSpeed = 8.0f;
+    public float gravity = 20.0f;
 
-    bool isGrounded()
-    {
-        return Physics.Raycast(rayCastBoundsFront, -Vector3.up, distToGround) | Physics.Raycast(rayCastBoundsBack, -Vector3.up, distToGround) | Physics.Raycast(rayCastBoundsLeft, -Vector3.up, distToGround) | Physics.Raycast(rayCastBoundsRight, -Vector3.up, distToGround);
-    }
+    private Vector3 moveDirection = Vector3.zero;
     // Use this for initialization
     void Start()
     {
@@ -43,41 +42,38 @@ public class PlayerControls : MonoBehaviour
         playerCam = GetComponentInChildren<Camera>();
         isObjectHeld = false;
         rewindNext = false;
-        body = this.gameObject.GetComponent<Rigidbody>();
         shape = this.gameObject.GetComponent<BoxCollider>();
+        controller = this.GetComponent<CharacterController>();
         distToGround = shape.bounds.extents.y + buffer;
         distToFront = shape.bounds.extents.z + buffer;
         distToSide = shape.bounds.extents.x + buffer;
     }
-
-    void FixedUpdate() {
-        translation = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-        strafe = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        transform.Translate(strafe, 0, translation);
-    }
-
     // Update is called once per frame
     void Update()
     {
-        rayCastBoundsFront.y = transform.position.y;
-        rayCastBoundsFront.x = transform.position.x + distToFront;
-        rayCastBoundsFront.z = transform.position.z;
-        rayCastBoundsBack.y = transform.position.y;
-        rayCastBoundsBack.x = transform.position.x - distToFront;
-        rayCastBoundsBack.z = transform.position.z;
-        rayCastBoundsLeft.y = transform.position.y;
-        rayCastBoundsLeft.x = transform.position.x - distToSide;
-        rayCastBoundsLeft.z = transform.position.z;
-        rayCastBoundsRight.y = transform.position.y;
-        rayCastBoundsRight.x = transform.position.x + distToSide;
-        rayCastBoundsRight.z = transform.position.z;
+        if (controller.isGrounded)
+        {
+            // We are grounded, so recalculate
+            // move direction directly from axes
+
+            moveDirection = Quaternion.Euler (0, transform.eulerAngles.y, 0) * new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+            moveDirection *= speed;
+
+            if (Input.GetButton("Jump"))
+            {
+                moveDirection.y = jumpSpeed;
+            }
+        }
+        // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
+        // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
+        // as an acceleration (ms^-2)
+        moveDirection.y -= gravity * Time.deltaTime;
+
+        // Move the controller
+        controller.Move(moveDirection * Time.deltaTime);
+        
         // Input.GetAxis() is used to get the user's input
         // You can furthor set it on Unity. (Edit, Project Settings, Input)
-
-        if (Input.GetKey(KeyCode.Space) && isGrounded())
-        {
-            body.AddForce(0, 400, 0);
-        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
