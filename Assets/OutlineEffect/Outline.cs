@@ -41,15 +41,12 @@ namespace cakeslice
         public int originalLayer;
         [HideInInspector]
         public Material[] originalMaterials;
+        private System.Diagnostics.Stopwatch timer;
 
         private void Awake()
         {
             Renderer = GetComponent<Renderer>();
             this.eraseRenderer = true;
-        }
-
-        void Update() {
-            
         }
         void OnEnable()
         {

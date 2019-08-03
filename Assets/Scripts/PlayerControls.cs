@@ -16,7 +16,7 @@ public class PlayerControls : MonoBehaviour
     public float speed = 10.0f;
     private float translation;
     public Camera playerCam;
-    public float rayDistance;
+    private float rayDistance = 100f;
     private GameObject objectHeld;
     private bool isObjectHeld;
     private float distance = 3f;
@@ -28,6 +28,7 @@ public class PlayerControls : MonoBehaviour
     private float distToGround, distToFront, distToSide;
     private CapsuleCollider shape;
     private Vector3 rayCastBoundsFront, rayCastBoundsBack, rayCastBoundsLeft, rayCastBoundsRight;
+    GameObject currentHit, lastHit;
 
     bool isGrounded()
     {
@@ -155,14 +156,16 @@ public class PlayerControls : MonoBehaviour
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
-        if (hit.collider.tag == "Wall")
+            
+        if (hit.collider.tag == "Wall" && lastHit != hit.collider.gameObject)
                 {
-                    Debug.Log(hit.collider.gameObject.name);
                     Outline temp = hit.collider.gameObject.GetComponent<Outline>();
                     temp.color = 0;
                     temp.eraseRenderer = false;
+                    lastHit = hit.collider.gameObject;
 
                 }
+
         }
 
         Ray playerAim = playerCam.ViewportPointToRay(new Vector3(0.5f, .75f, 0));
