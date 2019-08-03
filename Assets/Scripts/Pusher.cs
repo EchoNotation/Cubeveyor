@@ -30,13 +30,13 @@ public class Pusher : MonoBehaviour
         Grab.Stop();
         waitingToDeploy = false;
         timer = new System.Diagnostics.Stopwatch();
-        //transform.rotation = Quaternion.Euler(0,100,0);
+        transform.rotation = Quaternion.Euler(45,45,45);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //transform.Rotate(Time.deltaTime, 0, 0);
+        transform.Rotate(Time.deltaTime, 0, 0);
         transform.Rotate(0, Time.deltaTime * 50, 0, Space.World);
         if(waitingToDeploy)
         {

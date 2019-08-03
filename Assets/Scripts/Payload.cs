@@ -11,7 +11,6 @@ public class Payload : MonoBehaviour
     private const int forceConstant = 5;
     private const int upConstant = 2;
     private Vector3 payloadOrigin;
-    private float speed = 42f;
     private Transform target;
     private Vector3 lastError;
 
@@ -34,7 +33,6 @@ public class Payload : MonoBehaviour
             Vector3 derivitve = error - lastError;
             body.velocity += (error * 1f + derivitve * 4f);
             lastError = error;
-
         }
     }
 
