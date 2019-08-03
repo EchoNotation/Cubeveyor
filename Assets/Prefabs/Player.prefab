@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7567673190585039101}
   - component: {fileID: 3198399930881606492}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Outline Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 7376062584207038643}
   - component: {fileID: 7376062584207038641}
   - component: {fileID: 7376062584207038640}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 7376062584524487170}
   - component: {fileID: 7376062584524487168}
   - component: {fileID: 7376062584524487171}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 7376062585334672285}
   - component: {fileID: 7376062585334672284}
   - component: {fileID: 7376062585334672287}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 7376062585410755130}
   - component: {fileID: 7376062585410755129}
   - component: {fileID: 2105580979900549973}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -477,9 +477,9 @@ GameObject:
   - component: {fileID: 8224896111265651546}
   - component: {fileID: 7376062585610518283}
   - component: {fileID: 6891779925929358330}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
