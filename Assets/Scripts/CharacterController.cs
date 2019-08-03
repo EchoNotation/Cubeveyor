@@ -14,7 +14,7 @@ public class CharacterController : MonoBehaviour
 
     public float speed = 10.0f;
     private float translation;
-    private float straffe;
+    private float strafe;
     private bool rewindNext;
 
     // Use this for initialization
@@ -31,8 +31,17 @@ public class CharacterController : MonoBehaviour
         // Input.GetAxis() is used to get the user's input
         // You can furthor set it on Unity. (Edit, Project Settings, Input)
         translation = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-        straffe = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        transform.Translate(straffe, 0, translation);
+        strafe = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+        transform.Translate(strafe, 0, translation);
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            transform.Translate(0, speed*Time.deltaTime, 0);
+        }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            transform.Translate(0, -speed * Time.deltaTime, 0);
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
