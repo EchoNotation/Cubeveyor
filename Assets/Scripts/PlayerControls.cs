@@ -141,14 +141,6 @@ public class PlayerControls : MonoBehaviour
                 objectHeld = hit.collider.gameObject;
                 isObjectHeld = true;
             }
-            else if (hit.collider.tag == "Wall")
-            {
-                Debug.Log(hit.collider.gameObject.name);
-                Outline temp = hit.collider.gameObject.GetComponent<Outline>();
-                temp.color = 0;
-                temp.eraseRenderer = false;
-
-            }
         }
     }
     private void holdObject()
@@ -157,15 +149,20 @@ public class PlayerControls : MonoBehaviour
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
-            
-        if (hit.collider.tag == "Wall" && lastHit != hit.collider.gameObject)
+            if (hit.collider.tag == "Wall")
+            {
+                currentHit = hit.collider.gameObject;
+                Outline temp = currentHit.GetComponent<Outline>();
+                temp.color = 1;
+                temp.eraseRenderer = false;
+                if (lastHit != currentHit && lastHit != null)
                 {
-                    Outline temp = hit.collider.gameObject.GetComponent<Outline>();
-                    temp.color = 0;
-                    temp.eraseRenderer = false;
-                    lastHit = hit.collider.gameObject;
-
+                    Outline test = lastHit.GetComponent<Outline>();
+                    test.color = 2;
+                    test.eraseRenderer = true;
                 }
+                lastHit = currentHit;
+            }
 
         }
 
