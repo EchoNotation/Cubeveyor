@@ -169,8 +169,10 @@ namespace cakeslice
             UpdateOutlineCameraFromSource();
             outlineCamera.targetTexture = renderTexture;
             commandBuffer.SetRenderTarget(renderTexture);
-
             commandBuffer.Clear();
+
+            //BELOW THIS
+
             if(outlines != null)
             {
                 foreach(Outline outline in outlines)
@@ -182,7 +184,6 @@ namespace cakeslice
                         for(int v = 0; v < outline.Renderer.sharedMaterials.Length; v++)
                         {
                             Material m = null;
-
                             if(outline.Renderer.sharedMaterials[v].mainTexture != null && outline.Renderer.sharedMaterials[v])
                             {
                                 foreach(Material g in materialBuffer)
@@ -220,28 +221,33 @@ namespace cakeslice
                                 m.SetInt("_Culling", (int)UnityEngine.Rendering.CullMode.Off);
 
                             commandBuffer.DrawRenderer(outline.GetComponent<Renderer>(), m, 0, 0);
+
                             MeshFilter mL = outline.GetComponent<MeshFilter>();
                             if(mL)
                             {
                                 for(int i = 1; i < mL.sharedMesh.subMeshCount; i++)
                                     commandBuffer.DrawRenderer(outline.GetComponent<Renderer>(), m, i, 0);
                             }
-                            SkinnedMeshRenderer sMR = outline.GetComponent<SkinnedMeshRenderer>();
+
+                            /*SkinnedMeshRenderer sMR = outline.GetComponent<SkinnedMeshRenderer>();
                             if(sMR)
                             {
                                 for(int i = 1; i < sMR.sharedMesh.subMeshCount; i++)
                                     commandBuffer.DrawRenderer(outline.GetComponent<Renderer>(), m, i, 0);
                             }
+                            */
                         }
                     }
                 }
             }
 
+            //ABOVE THIS, but outlineCamera.Render is still fairly bad
             outlineCamera.Render();
         }
 
         private void OnEnable()
         {
+
             Outline[] o = FindObjectsOfType<Outline>();
 
             foreach(Outline oL in o)
@@ -249,6 +255,7 @@ namespace cakeslice
                 oL.enabled = false;
                 oL.enabled = true;
             }
+
         }
 
         void OnDestroy()
@@ -373,6 +380,7 @@ namespace cakeslice
 
                 Shader.SetGlobalFloat("_OutlineAlphaCutoff", alphaCutoff);
             }
+
         }
 
         void UpdateOutlineCameraFromSource()
@@ -390,6 +398,7 @@ namespace cakeslice
 #else
             outlineCamera.hdr = false;
 #endif
+
         }
 
         public void AddOutline(Outline outline)
