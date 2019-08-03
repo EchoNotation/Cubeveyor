@@ -5097,7 +5097,7 @@ GameObject:
   - component: {fileID: 7502965700977593987}
   m_Layer: 0
   m_Name: Pusher
-  m_TagString: Pusher
+  m_TagString: Pickupable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
