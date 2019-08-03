@@ -3,5 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class Variables {
-    public static bool isEditMode;
+    public static bool isEditMode = true;
 }
