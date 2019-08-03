@@ -66,6 +66,7 @@ public class CharacterController : MonoBehaviour
         } else if (objectHeld != null){
             holdObject();
         }
+
         if(Input.GetKeyDown(KeyCode.R))
         {
             //Rewind or Play
@@ -108,11 +109,14 @@ public class CharacterController : MonoBehaviour
             {
                 objectHeld = hit.collider.gameObject;
                 isObjectHeld = true;
+            } else if (hit.collider.tag == "Wall"){
+                Debug.Log(hit.collider.gameObject.name);
+                hit.collider.gameObject.GetComponent<Outline>().enabled = !GetComponent<Outline>().enabled;
             }
         }
     }
       private void holdObject(){
-        Ray playerAim = playerCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray playerAim = playerCam.ViewportPointToRay(new Vector3(0.5f, .75f, 0));
        
         Vector3 nextPos = playerCam.transform.position + playerAim.direction * distance;
         Vector3 currPos = objectHeld.transform.position;
