@@ -21,11 +21,6 @@ public class SceneControl : MonoBehaviour
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            TransitionIntoCube();
-        }
-
         if(transitioning)
         {
             switch(phase) {
