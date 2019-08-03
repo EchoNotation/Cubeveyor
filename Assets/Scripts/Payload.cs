@@ -46,7 +46,6 @@ public class Payload : MonoBehaviour
         this.target = target;
         isGrappled = true;
         direction = dir;
-        Debug.Log("contact");
     }
 
     public void Release()
