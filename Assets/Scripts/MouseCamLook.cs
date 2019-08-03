@@ -28,6 +28,7 @@ public class MouseCamLook : MonoBehaviour
     void Start()
     {
         character = this.transform.parent.gameObject;
+        mouseLook.x = this.transform.eulerAngles.y;
     }
 
     // Update is called once per frame

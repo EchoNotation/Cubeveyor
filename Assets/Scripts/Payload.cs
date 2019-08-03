@@ -36,7 +36,7 @@ public class Payload : MonoBehaviour
         {
             Vector3 error = (target.position - transform.position);
             Vector3 derivitve = error - lastError;
-            body.velocity += (error * 1f + derivitve * 4f);
+            body.velocity += (error * 1f + derivitve * 6f);
             lastError = error;
         }
     }
