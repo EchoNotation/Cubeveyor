@@ -9,6 +9,7 @@ TagManager:
   - Pusher
   - Light
   - Pickupable
+  - SoundManager
   layers:
   - Default
   - TransparentFX
