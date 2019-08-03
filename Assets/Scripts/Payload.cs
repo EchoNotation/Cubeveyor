@@ -22,7 +22,7 @@ public class Payload : MonoBehaviour
         body = this.GetComponent<Rigidbody>();
         payloadOrigin = this.transform.position;
         lastError = Vector3.zero;
-        body.AddForce(new Vector3(forceConstant,0,0), ForceMode.Impulse);
+        //body.AddForce(new Vector3(forceConstant,0,0), ForceMode.Impulse);
     }
 
     // Update is called once per frame
