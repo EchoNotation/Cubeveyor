@@ -12,4 +12,9 @@ public class SceneControl : MonoBehaviour
 
         SceneManager.LoadScene(sceneName);
     }
+
+    public void TransitionIntoCube()
+    {
+
+    }
 }

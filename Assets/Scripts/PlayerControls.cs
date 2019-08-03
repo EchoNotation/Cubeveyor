@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
 
-public class CharacterController : MonoBehaviour
+public class PlayerControls : MonoBehaviour
 {
 
     public float speed = 10.0f;
