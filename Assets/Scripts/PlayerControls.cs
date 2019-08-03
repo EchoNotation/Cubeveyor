@@ -36,6 +36,7 @@ public class PlayerControls : MonoBehaviour
         playerCam = GetComponentInChildren<Camera>();
         isObjectHeld = false;
         rewindNext = false;
+        Variables.isEditMode = true;
         controller = this.GetComponent<CharacterController>();
     }
     // Update is called once per frame
@@ -46,7 +47,7 @@ public class PlayerControls : MonoBehaviour
             // We are grounded, so recalculate
             // move direction directly from axes
 
-            moveDirection = Quaternion.Euler (0, transform.eulerAngles.y, 0) * new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+            moveDirection = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
             moveDirection *= speed;
 
             if (Input.GetButton("Jump"))
@@ -97,10 +98,12 @@ public class PlayerControls : MonoBehaviour
                 if (rewindNext)
                 {
                     i.GetComponent<Payload>().Rewind();
+                    Variables.isEditMode = true;
                 }
                 else
                 {
                     i.GetComponent<Payload>().Play();
+                    Variables.isEditMode = false;
                 }
 
                 rewindNext = !rewindNext;
@@ -120,15 +123,18 @@ public class PlayerControls : MonoBehaviour
 
     void Pickup()
     {
-        RaycastHit hit;
-        Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out hit, rayDistance))
+        if (Variables.isEditMode)
         {
-            if (hit.collider.tag == "Pickupable")
+            RaycastHit hit;
+            Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, rayDistance))
             {
-                objectHeld = hit.collider.gameObject;
-                isObjectHeld = true;
+                if (hit.collider.tag == "Pickupable")
+                {
+                    objectHeld = hit.collider.gameObject;
+                    isObjectHeld = true;
+                }
             }
         }
     }
@@ -173,7 +179,7 @@ public class PlayerControls : MonoBehaviour
 
             objectHeld.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
 
-            if (Vector3.Distance(objectHeld.transform.position, playerCam.transform.position) > maxDistanceGrab)
+            if (Vector3.Distance(objectHeld.transform.position, playerCam.transform.position) > maxDistanceGrab || !Variables.isEditMode)
             {
                 holdObject(false);
             }
