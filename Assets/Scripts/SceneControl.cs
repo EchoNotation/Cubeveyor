@@ -54,7 +54,7 @@ public class SceneControl : MonoBehaviour
                     break;
                 case 2:
                     temp = Vector3.Lerp(secondPosition, finalPosition, lerpInc);
-                    lerpInc += 0.01f;
+                    lerpInc += 0.02f;
                     trackingCamera.transform.position = temp;
 
                     if(lerpInc >= 1)
