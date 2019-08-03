@@ -27,8 +27,9 @@ public class PlayerControls : MonoBehaviour
     private Rigidbody body;
     private float distToGround, distToFront, distToSide;
     private CapsuleCollider shape;
+    private BoxCollider shape;
     private Vector3 rayCastBoundsFront, rayCastBoundsBack, rayCastBoundsLeft, rayCastBoundsRight;
-    private float buffer = (float)0.2;
+    private float buffer = 0.2f;
     GameObject currentHit, lastHit;
 
     bool isGrounded()
@@ -44,14 +45,14 @@ public class PlayerControls : MonoBehaviour
         isObjectHeld = false;
         rewindNext = false;
         body = this.gameObject.GetComponent<Rigidbody>();
-        shape = this.gameObject.GetComponent<CapsuleCollider>();
+        shape = this.gameObject.GetComponent<BoxCollider>();
         distToGround = shape.bounds.extents.y + buffer;
         distToFront = shape.bounds.extents.z + buffer;
         distToSide = shape.bounds.extents.x + buffer;
 }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         rayCastBoundsFront.y = transform.position.y;
         rayCastBoundsFront.x = transform.position.x + distToFront;
