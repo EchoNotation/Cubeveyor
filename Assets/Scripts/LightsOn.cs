@@ -11,6 +11,8 @@ public class LightsOn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timer = new System.Diagnostics.Stopwatch();
+
         lights = GameObject.FindGameObjectsWithTag("Light");
 
         foreach(GameObject i in lights)
