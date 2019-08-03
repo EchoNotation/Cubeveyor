@@ -17,6 +17,7 @@ public class Pusher : MonoBehaviour
 {
     //The direction that this pusher imparts its  force in.
     private System.Diagnostics.Stopwatch timer;
+    GameObject soundManager;
     public Direction direction;
     private bool waitingToDeploy;
     private const long deployTimer = 1500;
@@ -31,6 +32,7 @@ public class Pusher : MonoBehaviour
         waitingToDeploy = false;
         timer = new System.Diagnostics.Stopwatch();
         transform.rotation = Quaternion.Euler(45,45,45);
+        soundManager = GameObject.Find("SoundManager");
     }
 
     // Update is called once per frame
@@ -67,6 +69,7 @@ public class Pusher : MonoBehaviour
         timer.Stop();
         timer.Reset();
         Grab.Stop();
+
     }
 
 }

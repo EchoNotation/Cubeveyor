@@ -13,6 +13,7 @@ public class Payload : MonoBehaviour
     private Vector3 payloadOrigin;
     private Transform target;
     private Vector3 lastError;
+    private GameObject soundManager;
 
     // Start is called before the first frame update
     void Start()
@@ -20,8 +21,12 @@ public class Payload : MonoBehaviour
         isGrappled = false;
         body = this.GetComponent<Rigidbody>();
         payloadOrigin = this.transform.position;
+        soundManager = GameObject.Find("SoundManager");
         lastError = Vector3.zero;
-        Rewind();
+        this.transform.position = payloadOrigin;
+        this.GetComponent<Rigidbody>().velocity = new Vector3();
+        this.GetComponent<Rigidbody>().useGravity = false;
+        isGrappled = false;
         //body.AddForce(new Vector3(forceConstant,0,0), ForceMode.Impulse);
     }
 
@@ -42,6 +47,7 @@ public class Payload : MonoBehaviour
         this.target = target;
         isGrappled = true;
         direction = dir;
+        soundManager.GetComponent<SoundManager>().PusherSound();
     }
 
     public void Release()
@@ -93,6 +99,7 @@ public class Payload : MonoBehaviour
     public void Play()
     {
         this.GetComponent<Rigidbody>().useGravity = true;
+        soundManager.GetComponent<SoundManager>().PlayRewindSound(false);
     }
 
     public void Rewind()
@@ -101,5 +108,6 @@ public class Payload : MonoBehaviour
         this.GetComponent<Rigidbody>().velocity = new Vector3();
         this.GetComponent<Rigidbody>().useGravity = false;
         isGrappled = false;
+        soundManager.GetComponent<SoundManager>().PlayRewindSound(true);
     }
 }
