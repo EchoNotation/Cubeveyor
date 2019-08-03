@@ -26,7 +26,6 @@ public class Payload : MonoBehaviour
         this.transform.position = payloadOrigin;
         this.GetComponent<Rigidbody>().velocity = new Vector3();
         this.GetComponent<Rigidbody>().useGravity = false;
-        isGrappled = false;
         //body.AddForce(new Vector3(forceConstant,0,0), ForceMode.Impulse);
     }
 
