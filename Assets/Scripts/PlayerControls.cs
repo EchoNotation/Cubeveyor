@@ -48,7 +48,7 @@ public class PlayerControls : MonoBehaviour
         distToGround = shape.bounds.extents.y + buffer;
         distToFront = shape.bounds.extents.z + buffer;
         distToSide = shape.bounds.extents.x + buffer;
-}
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -90,12 +90,12 @@ public class PlayerControls : MonoBehaviour
             }
             else if (isObjectHeld)
             {
-                DropObject();
+                holdObject(false);
             }
         }
         else if (objectHeld != null)
         {
-            holdObject();
+            holdObject(true);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -143,7 +143,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
     }
-    private void holdObject()
+    private void holdObject(bool hold)
     {
         RaycastHit hit;
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
@@ -162,27 +162,32 @@ public class PlayerControls : MonoBehaviour
                     test.eraseRenderer = true;
                 }
                 lastHit = currentHit;
+
             }
-
+            if (!hold)
+            {
+                isObjectHeld = false;
+                objectHeld.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                objectHeld.GetComponent<Rigidbody>().position = (hit.normal + currentHit.transform.position);
+                objectHeld = null;
+                currentHit.GetComponent<Outline>().color = 2;
+                currentHit.GetComponent<Outline>().eraseRenderer = true;
+            }
         }
 
-        Ray playerAim = playerCam.ViewportPointToRay(new Vector3(0.5f, .75f, 0));
-
-        Vector3 nextPos = playerCam.transform.position + playerAim.direction * distance;
-        Vector3 currPos = objectHeld.transform.position;
-
-        objectHeld.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
-
-        if (Vector3.Distance(objectHeld.transform.position, playerCam.transform.position) > maxDistanceGrab)
+        if (objectHeld != null)
         {
-            DropObject();
-        }
-    }
+            Ray playerAim = playerCam.ViewportPointToRay(new Vector3(0.5f, .75f, 0));
 
-    private void DropObject()
-    {
-        isObjectHeld = false;
-        objectHeld.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        objectHeld = null;
+            Vector3 nextPos = playerCam.transform.position + playerAim.direction * distance;
+            Vector3 currPos = objectHeld.transform.position;
+
+            objectHeld.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
+
+            if (Vector3.Distance(objectHeld.transform.position, playerCam.transform.position) > maxDistanceGrab)
+            {
+                holdObject(false);
+            }
+        }
     }
 }
