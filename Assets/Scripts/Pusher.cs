@@ -63,4 +63,11 @@ public class Pusher : MonoBehaviour
         }
     }
 
+    public void Rewind()
+    {
+        timer.Stop();
+        timer.Reset();
+        Grab.Stop();
+    }
+
 }

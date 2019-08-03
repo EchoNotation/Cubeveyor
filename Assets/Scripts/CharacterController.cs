@@ -15,12 +15,14 @@ public class CharacterController : MonoBehaviour
     public float speed = 10.0f;
     private float translation;
     private float straffe;
+    private bool rewindNext;
 
     // Use this for initialization
     void Start()
     {
         // turn off the cursor
         Cursor.lockState = CursorLockMode.Locked;
+        rewindNext = false;
     }
 
     // Update is called once per frame
@@ -32,10 +34,39 @@ public class CharacterController : MonoBehaviour
         straffe = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
         transform.Translate(straffe, 0, translation);
 
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             // turn on the cursor
             Cursor.lockState = CursorLockMode.None;
+        }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            //Rewind or Play
+            GameObject[] payloads = GameObject.FindGameObjectsWithTag("Payload");
+
+            foreach(GameObject i in payloads)
+            {
+                if(rewindNext)
+                {
+                    i.GetComponent<Payload>().Rewind();
+                }
+                else
+                {
+                    i.GetComponent<Payload>().Play();
+                }
+
+                rewindNext = !rewindNext;
+            }
+
+            GameObject[] pushers = GameObject.FindGameObjectsWithTag("Pusher");
+
+            foreach(GameObject j in pushers)
+            {
+                if(rewindNext)
+                {
+                    j.GetComponent<Pusher>().Rewind();
+                }
+            }
         }
     }
 }
