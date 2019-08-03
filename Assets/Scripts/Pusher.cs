@@ -20,7 +20,6 @@ public class Pusher : MonoBehaviour
     public Direction direction;
     private bool waitingToDeploy;
     private const long deployTimer = 1000;
-    private long initialTime;
     private GameObject grabbedObject;
 
     // Start is called before the first frame update
@@ -28,8 +27,6 @@ public class Pusher : MonoBehaviour
     {
         waitingToDeploy = false;
         timer = new System.Diagnostics.Stopwatch();
-        timer.Start();
-        initialTime = timer.ElapsedMilliseconds;
     }
 
     // Update is called once per frame
@@ -37,12 +34,13 @@ public class Pusher : MonoBehaviour
     {
         if(waitingToDeploy)
         {
-            if(timer.ElapsedMilliseconds - deployTimer > initialTime)
+            if(timer.ElapsedMilliseconds > deployTimer)
             {
                 //Deploy the payload!
                 grabbedObject.GetComponent<Payload>().Release();
-                initialTime = timer.ElapsedMilliseconds;
                 waitingToDeploy = false;
+                timer.Stop();
+                timer.Reset();
             }
         }
     }
@@ -54,6 +52,7 @@ public class Pusher : MonoBehaviour
             grabbedObject = col.gameObject;
             grabbedObject.GetComponent<Payload>().Grab(direction);
             waitingToDeploy = true;
+            timer.Start();
         }
     }
 

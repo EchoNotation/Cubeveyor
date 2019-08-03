@@ -20,6 +20,8 @@ public class Payload : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(isGrappled);
+
         if(isGrappled)
         {
             body.velocity = new Vector3();
@@ -35,7 +37,6 @@ public class Payload : MonoBehaviour
     public void Release()
     {
         isGrappled = false;
-
         Vector3 force = new Vector3();
 
         switch(direction)
