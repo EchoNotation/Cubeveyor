@@ -76,9 +76,14 @@ public class Payload : MonoBehaviour
 
     }
 
-    public void ReturnToOrigin()
+    public void Play()
+    {
+        this.GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    public void Rewind()
     {
         this.transform.position = payloadOrigin;
-        
+        this.GetComponent<Rigidbody>().useGravity = false;
     }
 }
