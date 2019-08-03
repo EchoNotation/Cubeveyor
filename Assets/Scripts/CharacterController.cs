@@ -80,24 +80,30 @@ public class CharacterController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
 
-        if(Input.GetKeyDown(KeyCode.Mouse1)){
-            if(!isObjectHeld && objectHeld == null){
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            if (!isObjectHeld && objectHeld == null)
+            {
                 Pickup();
-            } else if(isObjectHeld){
+            }
+            else if (isObjectHeld)
+            {
                 DropObject();
             }
-        } else if (objectHeld != null){
+        }
+        else if (objectHeld != null)
+        {
             holdObject();
         }
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             //Rewind or Play
             GameObject[] payloads = GameObject.FindGameObjectsWithTag("Payload");
 
-            foreach(GameObject i in payloads)
+            foreach (GameObject i in payloads)
             {
-                if(rewindNext)
+                if (rewindNext)
                 {
                     i.GetComponent<Payload>().Rewind();
                 }
@@ -111,9 +117,9 @@ public class CharacterController : MonoBehaviour
 
             GameObject[] pushers = GameObject.FindGameObjectsWithTag("Pusher");
 
-            foreach(GameObject j in pushers)
+            foreach (GameObject j in pushers)
             {
-                if(rewindNext)
+                if (rewindNext)
                 {
                     j.GetComponent<Pusher>().Rewind();
                 }
@@ -132,26 +138,46 @@ public class CharacterController : MonoBehaviour
             {
                 objectHeld = hit.collider.gameObject;
                 isObjectHeld = true;
-            } else if (hit.collider.tag == "Wall"){
+            }
+            else if (hit.collider.tag == "Wall")
+            {
                 Debug.Log(hit.collider.gameObject.name);
-                //hit.collider.gameObject.GetComponent<Outline>().enabled = true;
+                Outline temp = hit.collider.gameObject.GetComponent<Outline>();
+                temp.color = 0;
+                temp.eraseRenderer = false;
+
             }
         }
     }
-      private void holdObject(){
+    private void holdObject()
+    {
+        RaycastHit hit;
+        Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, rayDistance))
+        {
+        if (hit.collider.tag == "Wall")
+                {
+                    Debug.Log(hit.collider.gameObject.name);
+                    Outline temp = hit.collider.gameObject.GetComponent<Outline>();
+                    temp.color = 0;
+                    temp.eraseRenderer = false;
+
+                }
+        }
+
         Ray playerAim = playerCam.ViewportPointToRay(new Vector3(0.5f, .75f, 0));
-       
+
         Vector3 nextPos = playerCam.transform.position + playerAim.direction * distance;
         Vector3 currPos = objectHeld.transform.position;
-               
+
         objectHeld.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
-       
+
         if (Vector3.Distance(objectHeld.transform.position, playerCam.transform.position) > maxDistanceGrab)
         {
             DropObject();
         }
     }
-   
+
     private void DropObject()
     {
         isObjectHeld = false;
