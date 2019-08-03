@@ -17,20 +17,24 @@ public class Pusher : MonoBehaviour
 {
     //The direction that this pusher imparts its  force in.
     private System.Diagnostics.Stopwatch timer;
+    GameObject soundManager;
     public Direction direction;
     private bool waitingToDeploy;
     private const long deployTimer = 1500;
     private GameObject grabbedObject;
     private ParticleSystem Grab;
+    AudioSource source;
 
     // Start is called before the first frame update
     void Start()
     {
+        source = this.GetComponent<AudioSource>();
         Grab = GetComponentInChildren<ParticleSystem>();
         Grab.Stop();
         waitingToDeploy = false;
         timer = new System.Diagnostics.Stopwatch();
         transform.rotation = Quaternion.Euler(45,45,45);
+        soundManager = GameObject.Find("SoundManager");
     }
 
     // Update is called once per frame
@@ -54,6 +58,15 @@ public class Pusher : MonoBehaviour
     {
         if(col.gameObject.CompareTag("Payload"))
         {
+            if(source.isPlaying)
+            {
+
+            }
+            else
+            {
+                source.Play();
+            }
+
             grabbedObject = col.gameObject;
             grabbedObject.GetComponent<Payload>().Grab(direction, this.transform);
             waitingToDeploy = true;
@@ -67,6 +80,7 @@ public class Pusher : MonoBehaviour
         timer.Stop();
         timer.Reset();
         Grab.Stop();
+
     }
 
 }

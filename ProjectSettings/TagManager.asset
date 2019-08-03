@@ -8,6 +8,8 @@ TagManager:
   - Wall
   - Pusher
   - Light
+  - Pickupable
+  - SoundManager
   layers:
   - Default
   - TransparentFX
