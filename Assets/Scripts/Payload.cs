@@ -9,19 +9,20 @@ public class Payload : MonoBehaviour
     private Direction direction;
     private bool isGrappled;
     private const int forceConstant = 5;
+    private const int upConstant = 2;
+    private Vector3 payloadOrigin;
 
     // Start is called before the first frame update
     void Start()
     {
         isGrappled = false;
         body = this.GetComponent<Rigidbody>();
+        payloadOrigin = this.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(isGrappled);
-
         if(isGrappled)
         {
             body.velocity = new Vector3();
@@ -64,7 +65,20 @@ public class Payload : MonoBehaviour
                 break;
         }
 
-        body.AddForce(force * forceConstant, ForceMode.Impulse);
+        if(direction == Direction.UP)
+        {
+            body.AddForce(force * forceConstant * upConstant, ForceMode.Impulse);
+        }
+        else
+        {
+            body.AddForce(force * forceConstant, ForceMode.Impulse);
+        }
 
+    }
+
+    public void ReturnToOrigin()
+    {
+        this.transform.position = payloadOrigin;
+        
     }
 }
