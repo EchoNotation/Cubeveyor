@@ -19,14 +19,12 @@ public class Payload : MonoBehaviour
     void Start()
     {
         isGrappled = false;
-        body = this.GetComponent<Rigidbody>();
         payloadOrigin = this.transform.position;
         soundManager = GameObject.Find("SoundManager");
         lastError = Vector3.zero;
-        this.transform.position = payloadOrigin;
-        this.GetComponent<Rigidbody>().velocity = new Vector3();
-        this.GetComponent<Rigidbody>().useGravity = false;
-        //body.AddForce(new Vector3(forceConstant,0,0), ForceMode.Impulse);
+        body = this.GetComponent<Rigidbody>();
+        body.velocity = Vector3.zero;
+        body.useGravity = false;
     }
 
     // Update is called once per frame
