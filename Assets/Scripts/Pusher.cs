@@ -23,10 +23,12 @@ public class Pusher : MonoBehaviour
     private const long deployTimer = 1500;
     private GameObject grabbedObject;
     private ParticleSystem Grab;
+    AudioSource source;
 
     // Start is called before the first frame update
     void Start()
     {
+        source = this.GetComponent<AudioSource>();
         Grab = GetComponentInChildren<ParticleSystem>();
         Grab.Stop();
         waitingToDeploy = false;
@@ -56,6 +58,15 @@ public class Pusher : MonoBehaviour
     {
         if(col.gameObject.CompareTag("Payload"))
         {
+            if(source.isPlaying)
+            {
+
+            }
+            else
+            {
+                source.Play();
+            }
+
             grabbedObject = col.gameObject;
             grabbedObject.GetComponent<Payload>().Grab(direction, this.transform);
             waitingToDeploy = true;

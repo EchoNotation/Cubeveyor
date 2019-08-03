@@ -32,15 +32,6 @@ public class SoundManager : MonoBehaviour
         
     }
 
-    public void PusherSound()
-    {
-        if(sounds[0].isPlaying)
-        {
-            sounds[0].Stop();
-        }
-        sounds[0].Play();
-    }
-
     public void LightsSound()
     {
         if(sounds[2].isPlaying)

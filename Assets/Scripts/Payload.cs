@@ -47,7 +47,6 @@ public class Payload : MonoBehaviour
         this.target = target;
         isGrappled = true;
         direction = dir;
-        soundManager.GetComponent<SoundManager>().PusherSound();
     }
 
     public void Release()
