@@ -14,20 +14,14 @@ public class PlayerControls : MonoBehaviour
 {
 
     public float speed = 10.0f;
-    private float translation;
     public Camera playerCam;
     private float rayDistance = 100f;
     private GameObject objectHeld;
     private bool isObjectHeld;
     private float distance = 3f;
     public float maxDistanceGrab = 100f;
-    private float strafe;
     private bool rewindNext;
 
-    private float distToGround, distToFront, distToSide;
-    private BoxCollider shape;
-    private Vector3 rayCastBoundsFront, rayCastBoundsBack, rayCastBoundsLeft, rayCastBoundsRight;
-    private float buffer = 0.2f;
     GameObject currentHit, lastHit;
     CharacterController controller;
     public float jumpSpeed = 8.0f;
@@ -42,11 +36,7 @@ public class PlayerControls : MonoBehaviour
         playerCam = GetComponentInChildren<Camera>();
         isObjectHeld = false;
         rewindNext = false;
-        shape = this.gameObject.GetComponent<BoxCollider>();
         controller = this.GetComponent<CharacterController>();
-        distToGround = shape.bounds.extents.y + buffer;
-        distToFront = shape.bounds.extents.z + buffer;
-        distToSide = shape.bounds.extents.x + buffer;
     }
     // Update is called once per frame
     void Update()
@@ -71,7 +61,7 @@ public class PlayerControls : MonoBehaviour
 
         // Move the controller
         controller.Move(moveDirection * Time.deltaTime);
-        
+
         // Input.GetAxis() is used to get the user's input
         // You can furthor set it on Unity. (Edit, Project Settings, Input)
 
