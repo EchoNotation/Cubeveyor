@@ -41,9 +41,9 @@ public class Payload : MonoBehaviour
 
     public void Grab(Direction dir, Transform target)
     {
-            this.target = target;
-            isGrappled = true;
-            direction = dir;
+        this.target = target;
+        isGrappled = true;
+        direction = dir;
     }
 
     public void Release()
@@ -100,10 +100,14 @@ public class Payload : MonoBehaviour
 
     public void Rewind()
     {
+        if (transform.position != payloadOrigin)
+        {
+            soundManager.GetComponent<SoundManager>().PlayRewindSound(true);
+        }
         this.transform.position = payloadOrigin;
         this.GetComponent<Rigidbody>().velocity = new Vector3();
         this.GetComponent<Rigidbody>().useGravity = false;
         isGrappled = false;
-        soundManager.GetComponent<SoundManager>().PlayRewindSound(true);
+        
     }
 }

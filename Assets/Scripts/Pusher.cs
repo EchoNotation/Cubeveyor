@@ -87,7 +87,7 @@ public class Pusher : MonoBehaviour
         timer.Stop();
         timer.Reset();
         source.Stop();
-        Grab.Stop();
+        Grab.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public void setTarget(Vector3 targetPos) {

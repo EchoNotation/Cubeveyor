@@ -74,7 +74,7 @@ public class PlayerControls : MonoBehaviour
             escMenu.enabled = !escMenu.enabled;
 
             // turn on the cursor
-            if(Variables.inEscMenu)
+            if (Variables.inEscMenu)
             {
                 Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -88,9 +88,9 @@ public class PlayerControls : MonoBehaviour
             }
         }
 
-        if(Variables.crosshairVisible)
+        if (Variables.crosshairVisible)
         {
-            if(Variables.inEscMenu)
+            if (Variables.inEscMenu)
             {
                 crosshair.enabled = false;
             }
@@ -104,6 +104,7 @@ public class PlayerControls : MonoBehaviour
         {
             if (!isObjectHeld && objectHeld == null)
             {
+                HandleRewind(true);
                 Pickup();
             }
             else if (isObjectHeld)
@@ -118,34 +119,7 @@ public class PlayerControls : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) && !Variables.inEscMenu)
         {
-            //Rewind or Play
-            GameObject[] payloads = GameObject.FindGameObjectsWithTag("Payload");
-
-            foreach (GameObject i in payloads)
-            {
-                if (rewindNext)
-                {
-                    i.GetComponent<Payload>().Rewind();
-                    Variables.isEditMode = true;
-                }
-                else
-                {
-                    i.GetComponent<Payload>().Play();
-                    Variables.isEditMode = false;
-                }
-
-                rewindNext = !rewindNext;
-            }
-
-            GameObject[] pushers = GameObject.FindGameObjectsWithTag("Pusher");
-
-            foreach (GameObject j in pushers)
-            {
-                if (rewindNext)
-                {
-                    j.GetComponent<Pusher>().Rewind();
-                }
-            }
+            HandleRewind(false);
         }
     }
 
@@ -231,5 +205,43 @@ public class PlayerControls : MonoBehaviour
                 holdObject(false);
             }
         }
+    }
+
+    private void HandleRewind(bool forceRewind) {
+            
+            if (forceRewind) {
+                rewindNext = true;
+            }
+
+           //Rewind or Play
+            GameObject[] payloads = GameObject.FindGameObjectsWithTag("Payload");
+
+            foreach (GameObject i in payloads)
+            {
+                if (rewindNext)
+                {
+                    i.GetComponent<Payload>().Rewind();
+                    Variables.isEditMode = true;
+                }
+                else
+                {
+                    i.GetComponent<Payload>().Play();
+                    Variables.isEditMode = false;
+                }
+
+            }
+
+            GameObject[] pushers = GameObject.FindGameObjectsWithTag("Pickupable");
+
+            foreach (GameObject j in pushers)
+            {
+                if (rewindNext)
+                {
+                    j.GetComponent<Pusher>().Rewind();
+                }
+            }
+
+            rewindNext = !rewindNext;
+
     }
 }
