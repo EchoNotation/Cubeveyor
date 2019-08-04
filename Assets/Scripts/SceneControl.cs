@@ -21,6 +21,8 @@ public class SceneControl : MonoBehaviour
 
     public void Update()
     {
+        Debug.Log(Variables.inEscMenu);
+
         if(transitioning)
         {
             switch(phase) {
@@ -92,10 +94,20 @@ public class SceneControl : MonoBehaviour
 
     public void Restart()
     {
-        LoadScene(Variables.currentScene);
         Variables.isEditMode = true;
         Variables.inEscMenu = false;
         Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+        LoadScene(Variables.currentScene);
+    }
+
+    public void QuitToMain()
+    {
+        Variables.isEditMode = true;
+        Variables.inEscMenu = false;
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.None;
+        LoadScene("MainMenu");
     }
 
     public void quit()

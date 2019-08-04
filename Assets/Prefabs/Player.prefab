@@ -197,14 +197,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -502705532682353521, guid: 33f5e436c33964644b20a8237711cabf,
           type: 3}
-        m_MethodName: quit
+        m_MethodName: QuitToMain
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
