@@ -27,11 +27,6 @@ public class SceneControl : MonoBehaviour
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            ExitCube();
-        }
-
         if(transitioning)
         {
             switch(phase) {
@@ -67,7 +62,7 @@ public class SceneControl : MonoBehaviour
                     }
                     break;
                 case 3:
-                    LoadScene("Tutorial1");
+                    LoadScene("Level1");
                     transitioning = false;
                     break;
                 default:
@@ -100,11 +95,13 @@ public class SceneControl : MonoBehaviour
                         levelPhase++;
                         nextLevel.enabled = true;
                         quitCanvas.enabled = true;
+                        Cursor.lockState = CursorLockMode.None;
                     }
                     break;
                 case 2:
                     if(proceedWithTransition)
                     {
+                        Cursor.lockState = CursorLockMode.Locked;
                         levelPhase++;
                     }
                     break;

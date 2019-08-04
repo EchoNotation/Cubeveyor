@@ -2447,6 +2447,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33f5e436c33964644b20a8237711cabf, type: 3}
+--- !u!4 &928026370 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 74304265846760718, guid: 33f5e436c33964644b20a8237711cabf,
+    type: 3}
+  m_PrefabInstance: {fileID: 928026369}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &936779299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8075,40 +8081,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6016b63808d78af4cad631ab1e919901, type: 3}
---- !u!84 &1422928318
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  serializedVersion: 3
-  m_Width: 690
-  m_Height: 327
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 8
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1001 &1431348679
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11265,7 +11237,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 51
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &1780411001
+--- !u!84 &1870829529
 RenderTexture:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11278,8 +11250,8 @@ RenderTexture:
   m_ForcedFallbackFormat: 4
   m_DownscaleFallback: 0
   serializedVersion: 3
-  m_Width: 690
-  m_Height: 327
+  m_Width: 745
+  m_Height: 419
   m_AntiAliasing: 1
   m_DepthFormat: 1
   m_ColorFormat: 8
@@ -18493,6 +18465,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 52
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &2011821424
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 745
+  m_Height: 419
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1001 &2034901850
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19891,6 +19897,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 800591538168676119, guid: 27c9cd4602467f747bba8d367809374f,
+        type: 3}
+      propertyPath: sceneController
+      value: 
+      objectReference: {fileID: 928026370}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27c9cd4602467f747bba8d367809374f, type: 3}
 --- !u!1001 &1319761671741452208
@@ -20192,11 +20203,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3198399930881606492, guid: eac3f0ee92d49cd419d5a7027d261034,
-        type: 3}
-      propertyPath: m_TargetTexture
-      value: 
-      objectReference: {fileID: 1422928318}
     - target: {fileID: 2105580979900549973, guid: eac3f0ee92d49cd419d5a7027d261034,
         type: 3}
       propertyPath: outlineShaderMaterial
@@ -20212,7 +20218,17 @@ PrefabInstance:
       propertyPath: extraRenderTexture
       value: 
       objectReference: {fileID: 218413489}
+    - target: {fileID: 3198399930881606492, guid: eac3f0ee92d49cd419d5a7027d261034,
+        type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 2011821424}
     - target: {fileID: 6856830329293956168, guid: eac3f0ee92d49cd419d5a7027d261034,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 259727221604087511, guid: eac3f0ee92d49cd419d5a7027d261034,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
