@@ -114,7 +114,6 @@ public class PlayerControls : MonoBehaviour
         {
             if (!isObjectHeld && objectHeld == null)
             {
-                HandleRewind(true);
                 Pickup();
             }
             else if (isObjectHeld)
@@ -135,7 +134,7 @@ public class PlayerControls : MonoBehaviour
 
     void Pickup()
     {
-        if (Variables.isEditMode && !Variables.inEscMenu)
+        if (!Variables.inEscMenu)
         {
             RaycastHit hit;
             Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
@@ -144,6 +143,7 @@ public class PlayerControls : MonoBehaviour
             {
                 if (hit.collider.tag == "Pickupable")
                 {
+                    HandleRewind(true);
                     objectHeld = hit.collider.gameObject;
                     objectHeld.GetComponent<Pusher>().UnlinkWall();
                     isObjectHeld = true;
