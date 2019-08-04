@@ -91,11 +91,20 @@ public class SceneControl : MonoBehaviour
 
                     if(lerpInc >= 1)
                     {
-                        lerpInc = 0;
-                        levelPhase++;
-                        nextLevel.enabled = true;
-                        quitCanvas.enabled = true;
-                        Cursor.lockState = CursorLockMode.None;
+                        if(Variables.lastLevel == 8)
+                        {
+                            Cursor.lockState = CursorLockMode.None;
+                            Variables.lastLevel = 0;
+                            LoadScene("Celebration");
+                        }
+                        else
+                        {
+                            lerpInc = 0;
+                            levelPhase++;
+                            nextLevel.enabled = true;
+                            quitCanvas.enabled = true;
+                            Cursor.lockState = CursorLockMode.None;
+                        }                 
                     }
                     break;
                 case 2:
