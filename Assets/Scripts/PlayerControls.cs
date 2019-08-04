@@ -130,13 +130,16 @@ public class PlayerControls : MonoBehaviour
             holdObject(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && !Variables.inEscMenu && objectHeld == null)
+        if(Input.GetKeyDown(KeyCode.R) && !Variables.inEscMenu)
         {
-            HandleRewind(false);
-        }
-        else
-        {
-            //Thomas put code here
+            if(objectHeld != null)
+            {
+                GameObject.Find("SoundManager").GetComponent<SoundManager>().PlayErrorSound();
+            }
+            else
+            {
+                HandleRewind(false);
+            }
         }
     }
 
@@ -159,6 +162,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
     }
+
     private void holdObject(bool hold)
     {
         RaycastHit hit;

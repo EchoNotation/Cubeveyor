@@ -6,7 +6,7 @@ public class SoundManager : MonoBehaviour
 {
     /*
      * 0: Grabbing/Releasing
-     * 1: Completion Fanfare
+     * 1: Error
      * 2: Lights
      * 3: Play/Rewind
      */
@@ -16,14 +16,7 @@ public class SoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject[] soundSources = GameObject.FindGameObjectsWithTag("SoundManager");
 
-        if(soundSources.Length > 1)
-        {
-            Destroy(this);
-        }
-
-        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame
@@ -58,5 +51,15 @@ public class SoundManager : MonoBehaviour
         }
 
         sounds[3].Play();
+    }
+
+    public void PlayErrorSound()
+    {
+        if(sounds[1].isPlaying)
+        {
+            sounds[1].Stop();
+        }
+
+        sounds[1].Play();
     }
 }
