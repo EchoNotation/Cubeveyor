@@ -67,7 +67,7 @@ public class SceneControl : MonoBehaviour
                     }
                     break;
                 case 3:
-                    LoadScene("Level1");
+                    LoadScene("Tutorial1");
                     transitioning = false;
                     break;
                 default:
