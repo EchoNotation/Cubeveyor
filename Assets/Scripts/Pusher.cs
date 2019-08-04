@@ -25,7 +25,6 @@ public class Pusher : MonoBehaviour
     AudioSource source;
     private Vector3 targetPos, initalPos, offsetDirection;
     private Rigidbody body;
-    private Transform renderedCube;
     private Outline linkedWall;
 
 
@@ -37,8 +36,7 @@ public class Pusher : MonoBehaviour
         Grab.Stop();
         waitingToDeploy = false;
         timer = new System.Diagnostics.Stopwatch();
-        renderedCube = GetComponentInChildren<Transform>();
-        renderedCube.rotation = Quaternion.Euler(45, 45, 45);
+        transform.rotation = Quaternion.Euler(45, 45, 45);
         soundManager = GameObject.Find("SoundManager");
         body = GetComponent<Rigidbody>();
         targetPos = transform.position;
@@ -47,7 +45,7 @@ public class Pusher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        renderedCube.Rotate(0, Time.deltaTime * 50, 0, Space.World);
+        transform.Rotate(0, Time.deltaTime * 50, 0, Space.World);
         if (body.position != targetPos)
         {
             Vector3 diffrence = (targetPos - body.position);
