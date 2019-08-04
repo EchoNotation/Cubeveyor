@@ -26,6 +26,7 @@ public class PlayerControls : MonoBehaviour
     CharacterController controller;
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
+    public Canvas escMenu, crosshair;
 
     private Vector3 moveDirection = Vector3.zero;
     // Use this for initialization
@@ -35,6 +36,8 @@ public class PlayerControls : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         playerCam = GetComponentInChildren<Camera>();
         isObjectHeld = false;
+        escMenu.enabled = false;
+        crosshair.enabled = false;
         rewindNext = false;
         Variables.isEditMode = true;
         controller = this.GetComponent<CharacterController>();
@@ -50,7 +53,7 @@ public class PlayerControls : MonoBehaviour
             moveDirection = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
             moveDirection *= speed;
 
-            if (Input.GetButton("Jump"))
+            if (Input.GetButton("Jump") && !Variables.inEscMenu)
             {
                 moveDirection.y = jumpSpeed;
             }
@@ -68,11 +71,36 @@ public class PlayerControls : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            escMenu.enabled = !escMenu.enabled;
+
             // turn on the cursor
-            Cursor.lockState = CursorLockMode.None;
+            if(Variables.inEscMenu)
+            {
+                Time.timeScale = 1;
+                Cursor.lockState = CursorLockMode.Locked;
+                Variables.inEscMenu = false;
+            }
+            else
+            {
+                Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.None;
+                Variables.inEscMenu = true;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if(Variables.crosshairVisible)
+        {
+            if(Variables.inEscMenu)
+            {
+                crosshair.enabled = false;
+            }
+            else
+            {
+                crosshair.enabled = true;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1) && !Variables.inEscMenu)
         {
             if (!isObjectHeld && objectHeld == null)
             {
@@ -88,7 +116,7 @@ public class PlayerControls : MonoBehaviour
             holdObject(true);
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !Variables.inEscMenu)
         {
             //Rewind or Play
             GameObject[] payloads = GameObject.FindGameObjectsWithTag("Payload");
@@ -123,7 +151,7 @@ public class PlayerControls : MonoBehaviour
 
     void Pickup()
     {
-        if (Variables.isEditMode)
+        if (Variables.isEditMode && !Variables.inEscMenu)
         {
             RaycastHit hit;
             Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);

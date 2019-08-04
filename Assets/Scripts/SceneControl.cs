@@ -16,7 +16,7 @@ public class SceneControl : MonoBehaviour
 
     public void Start()
     {
-        
+ 
     }
 
     public void Update()
@@ -72,6 +72,7 @@ public class SceneControl : MonoBehaviour
         //Implement any required transition logic here...
 
         SceneManager.LoadScene(sceneName);
+        Variables.currentScene = sceneName;
     }
 
     public void TransitionIntoCube()
@@ -87,6 +88,14 @@ public class SceneControl : MonoBehaviour
 
         GameObject.Find("Camera").GetComponent<MenuCameraMovement>().StartTransition();
         GameObject.Find("Canvas").SetActive(false);
+    }
+
+    public void Restart()
+    {
+        LoadScene(Variables.currentScene);
+        Variables.isEditMode = true;
+        Variables.inEscMenu = false;
+        Time.timeScale = 1;
     }
 
     public void quit()
