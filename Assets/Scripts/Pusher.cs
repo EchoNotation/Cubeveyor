@@ -64,7 +64,7 @@ public class Pusher : MonoBehaviour
 
     public void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.CompareTag("Payload"))
+        if(col.gameObject.CompareTag("Payload") && !Variables.isEditMode)
         {
             if(source.isPlaying)
             {
@@ -86,6 +86,7 @@ public class Pusher : MonoBehaviour
     {
         timer.Stop();
         timer.Reset();
+        source.Stop();
         Grab.Stop();
     }
 

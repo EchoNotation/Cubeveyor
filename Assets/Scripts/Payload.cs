@@ -30,7 +30,7 @@ public class Payload : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isGrappled)
+        if (isGrappled)
         {
             Vector3 error = (target.position - transform.position);
             Vector3 derivitve = error - lastError;
@@ -41,19 +41,19 @@ public class Payload : MonoBehaviour
 
     public void Grab(Direction dir, Transform target)
     {
-        this.target = target;
-        isGrappled = true;
-        direction = dir;
+            this.target = target;
+            isGrappled = true;
+            direction = dir;
     }
 
     public void Release()
     {
-        if(isGrappled)
+        if (isGrappled)
         {
             isGrappled = false;
             Vector3 force = new Vector3();
 
-            switch(direction)
+            switch (direction)
             {
                 case Direction.UP:
                     force = Vector3.up;
@@ -78,7 +78,7 @@ public class Payload : MonoBehaviour
                     break;
             }
 
-            if(direction == Direction.UP)
+            if (direction == Direction.UP)
             {
                 body.AddForce(force * forceConstant * upConstant, ForceMode.Impulse);
             }
