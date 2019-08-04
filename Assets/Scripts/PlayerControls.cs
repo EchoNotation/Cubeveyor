@@ -125,6 +125,10 @@ public class PlayerControls : MonoBehaviour
         {
             holdObject(true);
         }
+        else
+        {
+            holdObject(false);
+        }
 
         if(Input.GetKeyDown(KeyCode.R) && !Variables.inEscMenu)
         {
@@ -168,9 +172,14 @@ public class PlayerControls : MonoBehaviour
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
             currentHit = hit.collider.gameObject;
-            if (hit.collider.tag == "Wall")
+            currentOutline = currentHit.GetComponent<Outline>();
+            if (hit.collider.tag == "Pickupable" && !isObjectHeld)
             {
-                currentOutline = currentHit.GetComponent<Outline>();
+                currentOutline.color = 1;
+                currentOutline.eraseRenderer = false;
+            }
+            else if (hit.collider.tag == "Wall" && isObjectHeld)
+            {
                 currentOutline.color = 1;
                 currentOutline.eraseRenderer = false;
 
@@ -207,12 +216,13 @@ public class PlayerControls : MonoBehaviour
                 }
             }
 
-            if (lastHit != currentHit && lastHit != null && lastHit.tag == "Wall")
+            if (lastHit != currentHit && lastHit != null && (lastHit.tag == "Wall" || lastHit.tag == "Pickupable"))
             {
                 Outline test = lastHit.GetComponent<Outline>();
                 test.color = 2;
                 test.eraseRenderer = true;
             }
+
             lastHit = currentHit;
         }
 
