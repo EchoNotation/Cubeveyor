@@ -145,6 +145,7 @@ public class PlayerControls : MonoBehaviour
                 if (hit.collider.tag == "Pickupable")
                 {
                     objectHeld = hit.collider.gameObject;
+                    objectHeld.GetComponent<Pusher>().UnlinkWall();
                     isObjectHeld = true;
                 }
             }
@@ -158,19 +159,12 @@ public class PlayerControls : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
+            currentHit = hit.collider.gameObject;
             if (hit.collider.tag == "Wall")
             {
-                currentHit = hit.collider.gameObject;
                 currentOutline = currentHit.GetComponent<Outline>();
                 currentOutline.color = 1;
                 currentOutline.eraseRenderer = false;
-                if (lastHit != currentHit && lastHit != null)
-                {
-                    Outline test = lastHit.GetComponent<Outline>();
-                    test.color = 2;
-                    test.eraseRenderer = true;
-                }
-                lastHit = currentHit;
 
                 if (!hold)
                 {
@@ -178,18 +172,22 @@ public class PlayerControls : MonoBehaviour
                     Ray ray2 = new Ray(currentHit.transform.position, hit.normal);
                     Physics.Raycast(ray2, out hit2, 2f);
 
-
-                    //objectHeld.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                    objectHeld.GetComponent<Pusher>().setTarget((hit.normal + currentHit.transform.position));
-
+                    objectHeld.GetComponent<Pusher>().setTarget((hit.normal + currentHit.transform.position), transform.right);
 
                     if (hit2.collider != null && hit2.collider.tag == "Pickupable" && hit2.collider.gameObject != objectHeld)
                     {
+                        objectHeld.GetComponent<Pusher>().LinkWall(currentOutline);
                         objectHeld = hit2.collider.gameObject;
+                        isObjectHeld = true;
+                    } else if (currentOutline.getLinkedPusher() != null) {
+                        GameObject temp = currentOutline.getLinkedPusher();
+                        objectHeld.GetComponent<Pusher>().LinkWall(currentOutline);
+                        objectHeld = temp;
                         isObjectHeld = true;
                     }
                     else
                     {
+                        objectHeld.GetComponent<Pusher>().LinkWall(currentOutline);
                         objectHeld = null;
                         isObjectHeld = false;
                     }
@@ -198,6 +196,14 @@ public class PlayerControls : MonoBehaviour
 
                 }
             }
+
+            if (lastHit != currentHit && lastHit != null && lastHit.tag == "Wall")
+            {
+                Outline test = lastHit.GetComponent<Outline>();
+                test.color = 2;
+                test.eraseRenderer = true;
+            }
+            lastHit = currentHit;
         }
 
         if (objectHeld != null)
@@ -207,8 +213,7 @@ public class PlayerControls : MonoBehaviour
             Vector3 nextPos = playerCam.transform.position + playerAim.direction * distance;
             Vector3 currPos = objectHeld.transform.position;
 
-            objectHeld.GetComponent<Pusher>().setTarget(nextPos);
-            //objectHeld.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
+            objectHeld.GetComponent<Pusher>().setTarget(nextPos, transform.right * -1f);
 
             if (!Variables.isEditMode)
             {
@@ -217,41 +222,43 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    private void HandleRewind(bool forceRewind) {
-            
-            if (forceRewind) {
-                rewindNext = true;
-            }
+    private void HandleRewind(bool forceRewind)
+    {
 
-           //Rewind or Play
-            GameObject[] payloads = GameObject.FindGameObjectsWithTag("Payload");
+        if (forceRewind)
+        {
+            rewindNext = true;
+        }
 
-            foreach (GameObject i in payloads)
+        //Rewind or Play
+        GameObject[] payloads = GameObject.FindGameObjectsWithTag("Payload");
+
+        foreach (GameObject i in payloads)
+        {
+            if (rewindNext)
             {
-                if (rewindNext)
-                {
-                    i.GetComponent<Payload>().Rewind();
-                    Variables.isEditMode = true;
-                }
-                else
-                {
-                    i.GetComponent<Payload>().Play();
-                    Variables.isEditMode = false;
-                }
-
+                i.GetComponent<Payload>().Rewind();
+                Variables.isEditMode = true;
             }
-
-            GameObject[] pushers = GameObject.FindGameObjectsWithTag("Pickupable");
-
-            foreach (GameObject j in pushers)
+            else
             {
-                if (rewindNext)
-                {
-                    j.GetComponent<Pusher>().Rewind();
-                }
+                i.GetComponent<Payload>().Play();
+                Variables.isEditMode = false;
             }
 
-            rewindNext = !rewindNext;
+        }
+
+        GameObject[] pushers = GameObject.FindGameObjectsWithTag("Pickupable");
+
+        foreach (GameObject j in pushers)
+        {
+            if (rewindNext)
+            {
+                j.GetComponent<Pusher>().Rewind();
+            }
+        }
+
+        rewindNext = !rewindNext;
 
     }
 

@@ -42,20 +42,37 @@ namespace cakeslice
         [HideInInspector]
         public Material[] originalMaterials;
         private System.Diagnostics.Stopwatch timer;
+        private GameObject linkedPusher;
+        private Outline wallCode;
 
         private void Awake()
         {
             Renderer = GetComponent<Renderer>();
+            wallCode = GetComponent<Outline>();
             this.color = 2;
             this.eraseRenderer = true;
+            linkedPusher = null;
+        }
+
+        public void LinkPusher(GameObject pusher)
+        {
+                linkedPusher = pusher;
+        }
+
+        public GameObject getLinkedPusher() {
+            return linkedPusher;
+        }
+
+        public void UnlinkPusher() {
+            linkedPusher = null;
         }
         void OnEnable()
         {
-			IEnumerable<OutlineEffect> effects = Camera.allCameras.AsEnumerable()
-				.Select(c => c.GetComponent<OutlineEffect>())
-				.Where(e => e != null);
+            IEnumerable<OutlineEffect> effects = Camera.allCameras.AsEnumerable()
+                .Select(c => c.GetComponent<OutlineEffect>())
+                .Where(e => e != null);
 
-			foreach (OutlineEffect effect in effects)
+            foreach (OutlineEffect effect in effects)
             {
                 effect.AddOutline(this);
             }
@@ -63,11 +80,11 @@ namespace cakeslice
 
         void OnDisable()
         {
-			IEnumerable<OutlineEffect> effects = Camera.allCameras.AsEnumerable()
-				.Select(c => c.GetComponent<OutlineEffect>())
-				.Where(e => e != null);
+            IEnumerable<OutlineEffect> effects = Camera.allCameras.AsEnumerable()
+                .Select(c => c.GetComponent<OutlineEffect>())
+                .Where(e => e != null);
 
-			foreach (OutlineEffect effect in effects)
+            foreach (OutlineEffect effect in effects)
             {
                 effect.RemoveOutline(this);
             }
