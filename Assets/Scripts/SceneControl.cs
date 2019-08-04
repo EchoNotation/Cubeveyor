@@ -159,7 +159,6 @@ public class SceneControl : MonoBehaviour
                     }
                     break;
                 case 8:
-                    Debug.Log("Attempting to load Level: " + "Level" + (Variables.lastLevel + 1));
                     LoadScene("Level" + (Variables.lastLevel + 1));
                     break;
                 case 9:
