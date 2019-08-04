@@ -6,17 +6,14 @@ public class LightsOn : MonoBehaviour
 {
     GameObject[] lights;
     System.Diagnostics.Stopwatch timer;
-    GameObject canvas;
     private const int lightDelay = 1000;
 
     // Start is called before the first frame update
     void Start()
     {
         timer = new System.Diagnostics.Stopwatch();
-        canvas = GameObject.Find("Canvas");
-        canvas.SetActive(false);
-
         lights = GameObject.FindGameObjectsWithTag("Light");
+        Variables.crosshairVisible = false;
 
         foreach(GameObject i in lights)
         {
@@ -36,7 +33,7 @@ public class LightsOn : MonoBehaviour
                 i.GetComponent<Light>().enabled = true;
             }
 
-            canvas.SetActive(true);
+            Variables.crosshairVisible = true;
             GameObject.Find("SoundManager").GetComponent<SoundManager>().LightsSound();
 
             timer.Stop();
