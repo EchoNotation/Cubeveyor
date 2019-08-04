@@ -45,6 +45,16 @@ public class MouseCamLook : MonoBehaviour
             // incrementally add to the camera look
             mouseLook += smoothV;
 
+            //lock camera to 180 degrees vertically
+            if (mouseLook.y > 90)
+            {
+                mouseLook.y = 90;
+            }
+            else if (mouseLook.y < -90)
+            {
+                mouseLook.y = -90;
+            }
+
             // vector3.right means the x-axis
             transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
             character.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, character.transform.up);

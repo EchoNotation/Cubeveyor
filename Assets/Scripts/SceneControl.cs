@@ -5,23 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class SceneControl : MonoBehaviour
 {
-    private bool transitioning;
-    private int phase;
+    private bool transitioning, levelTransition, proceedWithTransition;
+    private int phase, levelPhase;
     private float lerpInc;
     private System.Diagnostics.Stopwatch timer;
     private GameObject trackingCamera;
     private const long hoverDelay = 1000;
-    Vector3 cubeTransform, secondPosition, finalPosition, cameraOrigin, temp;
-    Vector3 finalRotation, origRotation;
+    private const long rotateDelay = 800;
+    Vector3 cubeTransform, secondPosition, finalPosition, cameraOrigin, temp, thirdPosition, initialCubeTransform, finalCenterPosition;
+    Vector3 finalRotation, origRotation, lookAtRotation;
+    public Canvas nextLevel, quitCanvas;
+    public GameObject centerBit;
 
     public void Start()
     {
- 
+        proceedWithTransition = false;
+        levelTransition = false;
+        transitioning = false;
+        timer = new System.Diagnostics.Stopwatch();
     }
 
     public void Update()
     {
-        Debug.Log(Variables.inEscMenu);
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            ExitCube();
+        }
 
         if(transitioning)
         {
@@ -58,11 +67,108 @@ public class SceneControl : MonoBehaviour
                     }
                     break;
                 case 3:
-                    //Change this string
                     LoadScene("Tutorial1");
+                    transitioning = false;
                     break;
                 default:
                     Debug.Log("Invalid phase while transitioning! Phase: " + phase);
+                    break;
+            }
+        }
+        else if(levelTransition)
+        {
+            switch(levelPhase) {
+                case 0:
+                    temp = Vector3.Lerp(cameraOrigin, secondPosition, lerpInc);
+                    trackingCamera.transform.position = temp;
+                    lerpInc += 0.01f;
+
+                    if(lerpInc >= 1)
+                    {
+                        lerpInc = 0;
+                        levelPhase++;
+                    }
+                    break;
+                case 1:
+                    temp = Vector3.Lerp(initialCubeTransform, finalCenterPosition, lerpInc);
+                    centerBit.transform.position = temp;
+                    lerpInc += 0.01f;
+
+                    if(lerpInc >= 1)
+                    {
+                        lerpInc = 0;
+                        levelPhase++;
+                        nextLevel.enabled = true;
+                        quitCanvas.enabled = true;
+                    }
+                    break;
+                case 2:
+                    if(proceedWithTransition)
+                    {
+                        levelPhase++;
+                    }
+                    break;
+                case 3:
+                    temp = Vector3.Slerp(origRotation, lookAtRotation, lerpInc);
+                    trackingCamera.transform.rotation = Quaternion.Euler(temp.x, temp.y, temp.z);
+                    lerpInc += 0.01f;
+
+                    if(lerpInc >= 1)
+                    {
+                        lerpInc = 0;
+                        levelPhase++;
+                        timer.Start();
+                    }
+                    break;
+                case 4:
+                    if(timer.ElapsedMilliseconds > rotateDelay)
+                    {
+                        levelPhase++;
+                        timer.Stop();
+                        timer.Reset();
+                    }
+                    break;
+                case 5:
+                    temp = Vector3.Lerp(secondPosition, thirdPosition, lerpInc);
+                    trackingCamera.transform.position = temp;
+                    temp = Vector3.Slerp(lookAtRotation, finalRotation, lerpInc);
+                    trackingCamera.transform.rotation = Quaternion.Euler(temp.x, temp.y, temp.z);
+                    lerpInc += 0.01f;
+
+                    if(lerpInc >= 1)
+                    {
+                        lerpInc = 0;
+                        timer.Start();
+                        levelPhase++;
+                    }
+                    break;
+                case 6:
+                    if(timer.ElapsedMilliseconds > hoverDelay)
+                    {
+                        levelPhase++;
+                        timer.Stop();
+                        timer.Reset();
+                    }
+                    break;
+                case 7:
+                    temp = Vector3.Lerp(thirdPosition, finalPosition, lerpInc);
+                    trackingCamera.transform.position = temp;
+                    lerpInc += 0.01f;
+
+                    if(lerpInc >= 1)
+                    {
+                        lerpInc = 0;
+                        levelPhase++;
+                    }
+                    break;
+                case 8:
+                    Debug.Log("Attempting to load Level: " + "Level" + (Variables.lastLevel + 1));
+                    LoadScene("Level" + (Variables.lastLevel + 1));
+                    break;
+                case 9:
+                    break;
+                default:
+                    Debug.Log("Unexpected level phase during level-level transition! LevelPhase: " + levelPhase);
                     break;
             }
         }
@@ -81,7 +187,6 @@ public class SceneControl : MonoBehaviour
     {
         cubeTransform = GameObject.Find("RubiksCube").transform.position;
         trackingCamera = GameObject.Find("Main Camera");
-        timer = new System.Diagnostics.Stopwatch();
         cameraOrigin = trackingCamera.transform.position;
         origRotation = trackingCamera.transform.rotation.eulerAngles;
         secondPosition = new Vector3(0, cubeTransform.y + 5f, 0);
@@ -90,6 +195,28 @@ public class SceneControl : MonoBehaviour
 
         GameObject.Find("Camera").GetComponent<MenuCameraMovement>().StartTransition();
         GameObject.Find("Canvas").SetActive(false);
+    }
+
+    public void ExitCube()
+    {
+        initialCubeTransform = GameObject.Find("Rubik'sCube").transform.position;
+        cubeTransform = GameObject.Find("RubiksCube").transform.position;
+        levelTransition = true;
+        lookAtRotation = new Vector3(10, 90, 0);
+        finalRotation = new Vector3(90, 90, 0);
+        trackingCamera = GameObject.Find("Main Camera");
+        origRotation = trackingCamera.transform.rotation.eulerAngles;
+        cameraOrigin = trackingCamera.transform.position;
+        finalPosition = new Vector3(cubeTransform.x, cubeTransform.y + 0.85f, cubeTransform.z);
+        thirdPosition = new Vector3(cubeTransform.x, cubeTransform.y + 5f, cubeTransform.z);
+        secondPosition = new Vector3(initialCubeTransform.x, initialCubeTransform.y + 5f, initialCubeTransform.z);
+        finalCenterPosition = new Vector3(initialCubeTransform.x, initialCubeTransform.y + 1f, initialCubeTransform.z);
+        centerBit = GameObject.Find("CenterBit");
+    }
+
+    public void LevelToLevel()
+    {
+        proceedWithTransition = true;
     }
 
     public void Restart()
