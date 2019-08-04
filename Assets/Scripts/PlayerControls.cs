@@ -73,7 +73,7 @@ public class PlayerControls : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(controlsVisible)
+            if (controlsVisible)
             {
                 HideControls();
             }
@@ -82,7 +82,7 @@ public class PlayerControls : MonoBehaviour
                 escMenu.enabled = !escMenu.enabled;
 
                 // turn on the cursor
-                if(Variables.inEscMenu)
+                if (Variables.inEscMenu)
                 {
                     Time.timeScale = 1;
                     Cursor.lockState = CursorLockMode.Locked;
@@ -95,7 +95,7 @@ public class PlayerControls : MonoBehaviour
                     Variables.inEscMenu = true;
                 }
             }
-            
+
         }
 
         if (Variables.crosshairVisible)
@@ -126,9 +126,13 @@ public class PlayerControls : MonoBehaviour
             holdObject(true);
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && !Variables.inEscMenu)
+        if (Input.GetKeyDown(KeyCode.R) && !Variables.inEscMenu && objectHeld == null)
         {
             HandleRewind(false);
+        }
+        else
+        {
+            //Thomas put code here
         }
     }
 
@@ -179,7 +183,9 @@ public class PlayerControls : MonoBehaviour
                         objectHeld.GetComponent<Pusher>().LinkWall(currentOutline);
                         objectHeld = hit2.collider.gameObject;
                         isObjectHeld = true;
-                    } else if (currentOutline.getLinkedPusher() != null) {
+                    }
+                    else if (currentOutline.getLinkedPusher() != null)
+                    {
                         GameObject temp = currentOutline.getLinkedPusher();
                         objectHeld.GetComponent<Pusher>().LinkWall(currentOutline);
                         objectHeld = temp;
@@ -214,11 +220,6 @@ public class PlayerControls : MonoBehaviour
             Vector3 currPos = objectHeld.transform.position;
 
             objectHeld.GetComponent<Pusher>().setTarget(nextPos, transform.right * -1f);
-
-            if (!Variables.isEditMode)
-            {
-                holdObject(false);
-            }
         }
     }
 
