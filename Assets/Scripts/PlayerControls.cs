@@ -142,14 +142,16 @@ public class PlayerControls : MonoBehaviour
     {
         RaycastHit hit;
         Ray ray = playerCam.ScreenPointToRay(Input.mousePosition);
+        Outline currentOutline;
+
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
             if (hit.collider.tag == "Wall")
             {
                 currentHit = hit.collider.gameObject;
-                Outline temp = currentHit.GetComponent<Outline>();
-                temp.color = 1;
-                temp.eraseRenderer = false;
+                currentOutline = currentHit.GetComponent<Outline>();
+                currentOutline.color = 1;
+                currentOutline.eraseRenderer = false;
                 if (lastHit != currentHit && lastHit != null)
                 {
                     Outline test = lastHit.GetComponent<Outline>();
@@ -158,15 +160,31 @@ public class PlayerControls : MonoBehaviour
                 }
                 lastHit = currentHit;
 
-            }
-            if (!hold)
-            {
-                isObjectHeld = false;
-                objectHeld.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                objectHeld.GetComponent<Rigidbody>().position = (hit.normal + currentHit.transform.position);
-                objectHeld = null;
-                currentHit.GetComponent<Outline>().color = 2;
-                currentHit.GetComponent<Outline>().eraseRenderer = true;
+                if (!hold)
+                {
+                    RaycastHit hit2;
+                    Ray ray2 = new Ray(currentHit.transform.position, hit.normal);
+                    Physics.Raycast(ray2, out hit2, 2f);
+
+
+                    //objectHeld.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    objectHeld.GetComponent<Pusher>().setTarget((hit.normal + currentHit.transform.position));
+
+
+                    if (hit2.collider != null && hit2.collider.tag == "Pickupable" && hit2.collider.gameObject != objectHeld)
+                    {
+                        objectHeld = hit2.collider.gameObject;
+                        isObjectHeld = true;
+                    }
+                    else
+                    {
+                        objectHeld = null;
+                        isObjectHeld = false;
+                    }
+                    currentOutline.color = 2;
+                    currentOutline.eraseRenderer = true;
+
+                }
             }
         }
 
@@ -177,9 +195,10 @@ public class PlayerControls : MonoBehaviour
             Vector3 nextPos = playerCam.transform.position + playerAim.direction * distance;
             Vector3 currPos = objectHeld.transform.position;
 
-            objectHeld.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
+            objectHeld.GetComponent<Pusher>().setTarget(nextPos);
+            //objectHeld.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
 
-            if (Vector3.Distance(objectHeld.transform.position, playerCam.transform.position) > maxDistanceGrab || !Variables.isEditMode)
+            if (!Variables.isEditMode)
             {
                 holdObject(false);
             }

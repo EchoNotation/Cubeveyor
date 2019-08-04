@@ -12,7 +12,6 @@ public enum Direction
     BACKWARD,
     BLANK,
 }
-
 public class Pusher : MonoBehaviour
 {
     //The direction that this pusher imparts its  force in.
@@ -24,6 +23,9 @@ public class Pusher : MonoBehaviour
     private GameObject grabbedObject;
     private ParticleSystem Grab;
     AudioSource source;
+    private Vector3 targetPos, initalPos;
+    private Rigidbody body;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +37,18 @@ public class Pusher : MonoBehaviour
         timer = new System.Diagnostics.Stopwatch();
         transform.rotation = Quaternion.Euler(45,45,45);
         soundManager = GameObject.Find("SoundManager");
+        body = GetComponent<Rigidbody>();
+        targetPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.Rotate(0, Time.deltaTime * 50, 0, Space.World);
+        if(body.position != targetPos) {
+            body.velocity = (targetPos - body.position) * Time.deltaTime * 150f;
+        }
+
         if(waitingToDeploy)
         {
             if(timer.ElapsedMilliseconds > deployTimer)
@@ -79,7 +87,11 @@ public class Pusher : MonoBehaviour
         timer.Stop();
         timer.Reset();
         Grab.Stop();
+    }
 
+    public void setTarget(Vector3 targetPos) {
+        initalPos = transform.position;
+        this.targetPos = targetPos;
     }
 
 }
