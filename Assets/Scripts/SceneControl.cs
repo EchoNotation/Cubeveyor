@@ -95,7 +95,7 @@ public class SceneControl : MonoBehaviour
                         {
                             Cursor.lockState = CursorLockMode.None;
                             Variables.lastLevel = 0;
-                            LoadScene("End");
+                            LoadScene("Celebration");
                         }
                         else
                         {
