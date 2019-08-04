@@ -28,7 +28,7 @@ public class PlayerControls : MonoBehaviour
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
     public Canvas escMenu, crosshair, controlCanvas;
-    private Vector3 crosshairs = new Vector3(399,249,0);
+    private Vector3 crosshairs = new Vector3(0.5f, 0.5f, 0);
 
     private Vector3 moveDirection = Vector3.zero;
     // Use this for initialization
@@ -149,7 +149,7 @@ public class PlayerControls : MonoBehaviour
         if (!Variables.inEscMenu)
         {
             RaycastHit hit;
-            Ray ray = playerCam.ScreenPointToRay(crosshairs);
+            Ray ray = playerCam.ViewportPointToRay(crosshairs);
 
             if (Physics.Raycast(ray, out hit, rayDistance))
             {
@@ -167,7 +167,7 @@ public class PlayerControls : MonoBehaviour
     private void holdObject(bool hold)
     {
         RaycastHit hit;
-        Ray ray = playerCam.ScreenPointToRay(crosshairs);
+        Ray ray = playerCam.ViewportPointToRay(crosshairs);
         Outline currentOutline;
 
         if (Physics.Raycast(ray, out hit, rayDistance))
