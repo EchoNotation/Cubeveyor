@@ -26,7 +26,7 @@ public class PlayerControls : MonoBehaviour
     CharacterController controller;
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
-    public Canvas escMenu, crosshair;
+    public Canvas escMenu, crosshair, controlCanvas;
 
     private Vector3 moveDirection = Vector3.zero;
     // Use this for initialization
@@ -245,13 +245,15 @@ public class PlayerControls : MonoBehaviour
 
     }
 
-    public void HideEscMenu()
+    public void ShowControls()
     {
+        controlCanvas.enabled = true;
         escMenu.enabled = false;
     }
 
-    public void ShowEscMenu()
+    public void HideControls()
     {
+        controlCanvas.enabled = false;
         escMenu.enabled = true;
     }
 }

@@ -14,7 +14,7 @@ public class SceneControl : MonoBehaviour
     private const long rotateDelay = 800;
     Vector3 cubeTransform, secondPosition, finalPosition, cameraOrigin, temp, thirdPosition, initialCubeTransform, finalCenterPosition;
     Vector3 finalRotation, origRotation, lookAtRotation;
-    public Canvas nextLevel, quitCanvas, controlCanvas;
+    public Canvas nextLevel, quitCanvas;
     public GameObject centerBit;
 
     public void Start()
@@ -235,16 +235,6 @@ public class SceneControl : MonoBehaviour
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.None;
         LoadScene("MainMenu");
-    }
-
-    public void ShowControls()
-    {
-        controlCanvas.enabled = true;
-    }
-
-    public void HideControls()
-    {
-        controlCanvas.enabled = false;
     }
 
     public void quit()
