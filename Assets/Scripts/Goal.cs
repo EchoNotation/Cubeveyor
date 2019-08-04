@@ -23,7 +23,8 @@ public class Goal : MonoBehaviour
         if(col.gameObject.CompareTag("Payload"))
         {
             //Complete level
-            sceneController.GetComponent<SceneControl>().LoadScene("MainMenu");
+            Variables.lastLevel++;
+            sceneController.GetComponent<SceneControl>().LoadScene("Level Transition");
         }
     }
 }

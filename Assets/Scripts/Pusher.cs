@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using cakeslice;
 public enum Direction
 {
     UP,
@@ -23,8 +23,10 @@ public class Pusher : MonoBehaviour
     private GameObject grabbedObject;
     private ParticleSystem Grab;
     AudioSource source;
-    private Vector3 targetPos, initalPos;
+    private Vector3 targetPos, initalPos, offsetDirection;
     private Rigidbody body;
+    private Transform renderedCube;
+    private Outline linkedWall;
 
 
     // Start is called before the first frame update
@@ -35,7 +37,8 @@ public class Pusher : MonoBehaviour
         Grab.Stop();
         waitingToDeploy = false;
         timer = new System.Diagnostics.Stopwatch();
-        transform.rotation = Quaternion.Euler(45,45,45);
+        renderedCube = GetComponentInChildren<Transform>();
+        renderedCube.rotation = Quaternion.Euler(45, 45, 45);
         soundManager = GameObject.Find("SoundManager");
         body = GetComponent<Rigidbody>();
         targetPos = transform.position;
@@ -44,14 +47,15 @@ public class Pusher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0, Time.deltaTime * 50, 0, Space.World);
-        if(body.position != targetPos) {
-            body.velocity = (targetPos - body.position) * Time.deltaTime * 150f;
-        }
-
-        if(waitingToDeploy)
+        renderedCube.Rotate(0, Time.deltaTime * 50, 0, Space.World);
+        if (body.position != targetPos)
         {
-            if(timer.ElapsedMilliseconds > deployTimer)
+            Vector3 diffrence = (targetPos - body.position);
+            body.velocity = diffrence * Time.deltaTime * 150f + offsetDirection * diffrence.magnitude;
+        }
+        if (waitingToDeploy)
+        {
+            if (timer.ElapsedMilliseconds > deployTimer)
             {
                 //Deploy the payload!
                 grabbedObject.GetComponent<Payload>().Release();
@@ -64,9 +68,9 @@ public class Pusher : MonoBehaviour
 
     public void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.CompareTag("Payload") && !Variables.isEditMode)
+        if (col.gameObject.CompareTag("Payload") && !Variables.isEditMode)
         {
-            if(source.isPlaying)
+            if (source.isPlaying)
             {
                 source.Stop();
             }
@@ -90,9 +94,31 @@ public class Pusher : MonoBehaviour
         Grab.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
-    public void setTarget(Vector3 targetPos) {
+    public void setTarget(Vector3 targetPos, Vector3 offsetDirection)
+    {
         initalPos = transform.position;
         this.targetPos = targetPos;
+        this.offsetDirection = offsetDirection;
     }
 
+    public void LinkWall(Outline wall)
+    {
+        linkedWall = wall;
+        linkedWall.LinkPusher(this.gameObject);
+    }
+
+    public void UnlinkWall()
+    {
+        if (linkedWall != null)
+        {
+            linkedWall.UnlinkPusher();
+            linkedWall = null;
+        }
+    }
+    public bool isLinked(){
+        if (linkedWall == null) {
+            return false;
+        }
+        return true;
+    }
 }
