@@ -94,6 +94,7 @@ public class SceneControl : MonoBehaviour
                         if(Variables.lastLevel == 8)
                         {
                             Cursor.lockState = CursorLockMode.None;
+                            Variables.lastLevel = 0;
                             LoadScene("End");
                         }
                         else
