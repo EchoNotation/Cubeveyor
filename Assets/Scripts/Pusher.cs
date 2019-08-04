@@ -50,7 +50,13 @@ public class Pusher : MonoBehaviour
         {
             Vector3 diffrence = (targetPos - body.position);
             body.velocity = diffrence * Time.deltaTime * 150f + offsetDirection * diffrence.magnitude;
+
+            if (diffrence.magnitude < 0.01) {
+                targetPos = body.position;
+                body.velocity = Vector3.zero;
+            }
         }
+
         if (waitingToDeploy)
         {
             if (timer.ElapsedMilliseconds > deployTimer)
@@ -112,11 +118,5 @@ public class Pusher : MonoBehaviour
             linkedWall.UnlinkPusher();
             linkedWall = null;
         }
-    }
-    public bool isLinked(){
-        if (linkedWall == null) {
-            return false;
-        }
-        return true;
     }
 }
