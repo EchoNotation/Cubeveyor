@@ -244,4 +244,14 @@ public class PlayerControls : MonoBehaviour
             rewindNext = !rewindNext;
 
     }
+
+    public void HideEscMenu()
+    {
+        escMenu.enabled = false;
+    }
+
+    public void ShowEscMenu()
+    {
+        escMenu.enabled = true;
+    }
 }
