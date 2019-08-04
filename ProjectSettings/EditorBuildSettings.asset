@@ -30,6 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Level6.unity
     guid: 54b70bfaed1cfbc4a94b400b40b6f377
   - enabled: 1
+    path: Assets/Scenes/Celebration.unity
+    guid: 0c36a34ca70f144c1be76616d2bf79d1
+  - enabled: 1
     path: Assets/Scenes/Level7.unity
     guid: 5392ce1acaa54854386a27b30d9db6a3
   - enabled: 1
