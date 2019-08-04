@@ -8,4 +8,5 @@ public static class Variables {
     public static bool crosshairVisible = false;
 
     public static string currentScene = "MainMenu";
+    public static int lastLevel = 0;
 }
