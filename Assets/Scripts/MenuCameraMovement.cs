@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MenuCameraMovement : MonoBehaviour
 {
-    int i;
     float slerpInc;
     private bool transitioning = false;
     Vector3 origRotation, finalRotation, temp;
@@ -26,8 +25,7 @@ public class MenuCameraMovement : MonoBehaviour
         }
         else
         {
-            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.Euler(Mathf.Sin(i / 30) * 10, 0, 0), 10 * Time.deltaTime); ;
-            i++;
+            
         }
         
     }
