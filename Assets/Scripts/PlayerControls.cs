@@ -18,6 +18,7 @@ public class PlayerControls : MonoBehaviour
     private float rayDistance = 100f;
     private GameObject objectHeld;
     private bool isObjectHeld;
+    private bool controlsVisible;
     private float distance = 3f;
     public float maxDistanceGrab = 100f;
     private bool rewindNext;
@@ -39,6 +40,7 @@ public class PlayerControls : MonoBehaviour
         escMenu.enabled = false;
         crosshair.enabled = false;
         rewindNext = false;
+        controlsVisible = false;
         Variables.isEditMode = true;
         controller = this.GetComponent<CharacterController>();
     }
@@ -71,21 +73,29 @@ public class PlayerControls : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            escMenu.enabled = !escMenu.enabled;
-
-            // turn on the cursor
-            if (Variables.inEscMenu)
+            if(controlsVisible)
             {
-                Time.timeScale = 1;
-                Cursor.lockState = CursorLockMode.Locked;
-                Variables.inEscMenu = false;
+                HideControls();
             }
             else
             {
-                Time.timeScale = 0;
-                Cursor.lockState = CursorLockMode.None;
-                Variables.inEscMenu = true;
+                escMenu.enabled = !escMenu.enabled;
+
+                // turn on the cursor
+                if(Variables.inEscMenu)
+                {
+                    Time.timeScale = 1;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Variables.inEscMenu = false;
+                }
+                else
+                {
+                    Time.timeScale = 0;
+                    Cursor.lockState = CursorLockMode.None;
+                    Variables.inEscMenu = true;
+                }
             }
+            
         }
 
         if (Variables.crosshairVisible)
@@ -248,12 +258,14 @@ public class PlayerControls : MonoBehaviour
     public void ShowControls()
     {
         controlCanvas.enabled = true;
+        controlsVisible = true;
         escMenu.enabled = false;
     }
 
     public void HideControls()
     {
         controlCanvas.enabled = false;
+        controlsVisible = false;
         escMenu.enabled = true;
     }
 }
