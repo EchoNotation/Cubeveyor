@@ -94,6 +94,7 @@ public class SceneControl : MonoBehaviour
                         if(Variables.lastLevel == 8)
                         {
                             Cursor.lockState = CursorLockMode.None;
+                            Cursor.visible = true;
                             Variables.lastLevel = 0;
                             LoadScene("Celebration");
                         }
@@ -104,6 +105,7 @@ public class SceneControl : MonoBehaviour
                             nextLevel.enabled = true;
                             quitCanvas.enabled = true;
                             Cursor.lockState = CursorLockMode.None;
+                            Cursor.visible = true;
                         }                 
                     }
                     break;
@@ -111,6 +113,7 @@ public class SceneControl : MonoBehaviour
                     if(proceedWithTransition)
                     {
                         Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = false;
                         levelPhase++;
                     }
                     break;

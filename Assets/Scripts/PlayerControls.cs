@@ -36,6 +36,7 @@ public class PlayerControls : MonoBehaviour
     {
         // turn off the cursor
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         playerCam = GetComponentInChildren<Camera>();
         isObjectHeld = false;
         escMenu.enabled = false;
@@ -87,12 +88,14 @@ public class PlayerControls : MonoBehaviour
                 {
                     Time.timeScale = 1;
                     Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
                     Variables.inEscMenu = false;
                 }
                 else
                 {
                     Time.timeScale = 0;
                     Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
                     Variables.inEscMenu = true;
                 }
             }
