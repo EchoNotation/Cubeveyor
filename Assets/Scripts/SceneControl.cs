@@ -199,7 +199,6 @@ public class SceneControl : MonoBehaviour
         transitioning = true;
 
         GameObject.Find("Camera").GetComponent<MenuCameraMovement>().StartTransition();
-        GameObject.Find("Canvas").SetActive(false);
     }
 
     public void ExitCube()
